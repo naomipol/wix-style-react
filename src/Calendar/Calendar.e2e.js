@@ -1,22 +1,92 @@
 import eyes from 'eyes.it';
-import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
-
-import { calendarTestkitFactory } from '../../testkit/protractor';
-import { getStoryUrl } from '../../test/utils/storybook-helpers';
+import {
+  calendarTestkitFactory,
+  waitForVisibilityOf,
+} from '../../testkit/protractor';
+import { createStoryUrl } from '../../test/utils/storybook-helpers';
+import { TESTS_PREFIX } from '../../stories/storiesHierarchy';
 
 describe('Calendar', () => {
+  const storyUrl = ({ selectedDays }) => {
+    const baseUrl = createStoryUrl({
+      kind: `${TESTS_PREFIX}/3. Inputs/3.13 Calendar`,
+      story: '1. selectedDays',
+    });
+    return `${baseUrl}&selectedDays=${global.encodeURIComponent(
+      JSON.stringify(selectedDays),
+    )}`;
+  };
   const dataHook = 'calendar';
-  const storyUrl = getStoryUrl('3. Inputs', '3.13 Calendar');
   const driver = calendarTestkitFactory({ dataHook });
 
-  beforeAll(async () => {
-    await browser.get(storyUrl);
-  });
+  eyes.it(
+    'should correctly render when selectedDays is a single date',
+    async () => {
+      await browser.get(storyUrl({ selectedDays: new Date('2017/05/01') }));
+      await waitForVisibilityOf(driver.getElement(), 'Cannot find Calendar');
+    },
+    { enableSnapshotAtBrowserGet: false },
+  );
 
-  describe('default', () => {
-    eyes.it('should not break design', async () => {
-      await waitForVisibilityOf(driver.getElement(), 'Cannot find <Calendar/>');
-      expect(await driver.exists()).toBe(true);
-    });
-  });
+  eyes.it(
+    'should correctly render when selectedDays is a date range',
+    async () => {
+      await browser.get(
+        storyUrl({
+          selectedDays: {
+            from: new Date('2017/05/02'),
+            to: new Date('2017/05/06'),
+          },
+        }),
+      );
+      await waitForVisibilityOf(driver.getElement(), 'Cannot find Calendar');
+    },
+    { enableSnapshotAtBrowserGet: false },
+  );
+
+  eyes.it(
+    'should correctly render when selectedDays is an infinite date range starting in the current month',
+    async () => {
+      await browser.get(
+        storyUrl({
+          selectedDays: {
+            from: new Date('2017/05/02'),
+          },
+        }),
+      );
+      await waitForVisibilityOf(driver.getElement(), 'Cannot find Calendar');
+    },
+    { enableSnapshotAtBrowserGet: false },
+  );
+
+  eyes.it(
+    'should correctly render when selectedDays is an infinite date range ending in the current month',
+    async () => {
+      await browser.get(
+        storyUrl({
+          selectedDays: {
+            to: new Date('2017/05/02'),
+          },
+        }),
+      );
+      await waitForVisibilityOf(driver.getElement(), 'Cannot find Calendar');
+    },
+    { enableSnapshotAtBrowserGet: false },
+  );
+
+  eyes.it(
+    'should correctly render when selectedDays is aa range of one day',
+    async () => {
+      await browser.get(
+        storyUrl({
+          selectedDays: {
+            from: new Date('2017/05/02'),
+            to: new Date('2017/05/02'),
+          },
+        }),
+      );
+      await waitForVisibilityOf(driver.getElement(), 'Cannot find Calendar');
+    },
+    { enableSnapshotAtBrowserGet: false },
+  );
 });

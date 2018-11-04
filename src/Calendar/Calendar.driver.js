@@ -7,6 +7,8 @@ const calendarDriverFactory = ({ element, wrapper }) => {
     element.querySelectorAll(
       '[role="gridcell"]:not([class*="outside"]):not([class*="disabled"])',
     )[n];
+  const getNthDayOfTheMonth = n =>
+    element.querySelectorAll('[role="gridcell"]:not([class*="outside"])')[n];
   const getSelectedDay = () =>
     element.querySelector('[role="gridcell"][aria-selected=true]');
   const getYearDropdown = () =>
@@ -49,6 +51,9 @@ const calendarDriverFactory = ({ element, wrapper }) => {
       getNthWeekDayName(n) ? getNthWeekDayName(n).textContent : '',
     clickOnNthDay: (n = 0) =>
       getNthDay(n) && ReactTestUtils.Simulate.click(getNthDay(n)),
+    clickOnNthDayOfTheMonth: (n = 0) =>
+      getNthDayOfTheMonth(n) &&
+      ReactTestUtils.Simulate.click(getNthDayOfTheMonth(n)),
     clickOnSelectedDay: () => ReactTestUtils.Simulate.click(getSelectedDay()),
     clickOnYearDropdown: () => ReactTestUtils.Simulate.click(getYearDropdown()),
     clickOnNthYear: (n = 1) => ReactTestUtils.Simulate.mouseDown(getNthYear(n)),
