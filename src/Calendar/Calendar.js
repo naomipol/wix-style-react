@@ -83,6 +83,17 @@ export default class Calendar extends WixComponent {
     }
   };
 
+  _getMonth = props => {
+    const { value, selectedDays } = props;
+
+    return (
+      (selectedDays || {}).from ||
+      (selectedDays || {}).to ||
+      selectedDays ||
+      value
+    );
+  };
+
   _createDayPickerProps = () => {
     const {
       locale,
@@ -91,6 +102,7 @@ export default class Calendar extends WixComponent {
       filterDate,
       excludePastDates,
       value: propsValue,
+      selectedDays,
       rtl,
       twoMonths,
     } = this.props;
