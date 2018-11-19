@@ -148,6 +148,21 @@ export default class Calendar extends WixComponent {
       />
     );
 
+    function renderDay(day, modifiers) {
+      const relevantModifiers = ['start', 'end', 'selected'];
+      for (const modifier of relevantModifiers) {
+        if (modifier in modifiers) {
+          return (
+            <div className={`${modifier}Background`}>
+              <div className={'circle'}>{day.getDate()}</div>
+            </div>
+          );
+        }
+      }
+
+      return day.getDate();
+    }
+
     return {
       disabledDays: excludePastDates
         ? { before: new Date() }
