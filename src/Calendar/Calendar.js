@@ -6,6 +6,7 @@ import addMonths from 'date-fns/add_months';
 import startOfMonth from 'date-fns/start_of_month';
 import classNames from 'classnames';
 import parse from 'date-fns/parse';
+import t from 'wix-style-react/Typography';
 
 import WixComponent from '../BaseComponents/WixComponent';
 import localeUtilsFactory from '../LocaleUtils';
@@ -102,7 +103,6 @@ export default class Calendar extends WixComponent {
       filterDate,
       excludePastDates,
       value: propsValue,
-      selectedDays,
       rtl,
       twoMonths,
     } = this.props;
@@ -153,8 +153,12 @@ export default class Calendar extends WixComponent {
       for (const modifier of relevantModifiers) {
         if (modifier in modifiers) {
           return (
-            <div className={`${modifier}Background`}>
-              <div className={'circle'}>{day.getDate()}</div>
+            <div
+              className={`circle ${t.text} ${t.sizeSmall} ${t.weightThin} ${
+                modifiers.start || modifiers.end ? t.light : ''
+              }`}
+            >
+              {day.getDate()}
             </div>
           );
         }

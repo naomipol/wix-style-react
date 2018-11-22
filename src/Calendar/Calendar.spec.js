@@ -202,6 +202,14 @@ describe('Calendar', () => {
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
         expect(onChange.mock.calls[0][0].to.getDate()).toEqual(3);
       });
+      it(`should call onChange({from: $clickedDay, to: $from}) if the clicked day is earlier than the provided 'from'`, () => {
+        const driver = createDriver(
+          <Calendar
+            value={{to: new Date(2018, 10, 10)}}
+            onChange={onChange}
+            selectionMode={'range'}
+            />
+        );
 
       it(`should call onChange({from: $clickedDay, to: $from}) when a day is clicked, given only 'from'`, () => {
         const driver = createDriver(

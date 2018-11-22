@@ -1,6 +1,5 @@
 import ReactTestUtils from 'react-dom/test-utils';
 import dropdownLayoutDriverFactory from '../DropdownLayout/DropdownLayout.driver';
-import map from 'lodash/map';
 
 const calendarDriverFactory = ({ element, wrapper }) => {
   const getCalendar = () => element.querySelector('.DayPicker');
@@ -86,7 +85,6 @@ const calendarDriverFactory = ({ element, wrapper }) => {
         keyCode: 39,
       }),
     getSelectedDay: () => getSelectedDay().textContent,
-    getSelectedDays: () => map(getSelectedDays(), 'textContent'),
     getWidth: () => element.style.width,
     triggerKeyDown: params =>
       ReactTestUtils.Simulate.keyDown(getFocusedDay(), params),
