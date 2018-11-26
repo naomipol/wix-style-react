@@ -205,7 +205,7 @@ describe('Calendar', () => {
       it(`should call onChange({from: $clickedDay, to: $from}) if the clicked day is earlier than the provided 'from'`, () => {
         const driver = createDriver(
           <Calendar
-            value={{to: new Date(2018, 10, 10)}}
+            value={{from: new Date(2018, 10, 10)}}
             onChange={onChange}
             selectionMode={'range'}
             />
