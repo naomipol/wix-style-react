@@ -62,4 +62,4 @@ class Button extends Component {
   }
 }
 
-export default TextButton;
+export default Button;
