@@ -10,7 +10,7 @@ class Button extends Component {
   static propTypes = {
     /** Additional classes */
     className: string,
-    /** Skins of TextButton content */
+    /** Skins of Button content */
     skin: oneOf([
       'standard',
       'destructive',
@@ -19,9 +19,9 @@ class Button extends Component {
       'light',
       'transparent'
     ]),
-    /** Underline of TextButton content */
+    /** Underline of Button content */
     priority: oneOf(['primary', 'secondary']),
-    /** Size of TextButton content */
+    /** Size of Button content */
     size: oneOf(['small', 'medium']),
     /** Element based icon (svg, image etc.) */
     suffixIcon: element,
