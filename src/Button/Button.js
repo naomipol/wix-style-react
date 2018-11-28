@@ -17,7 +17,7 @@ class Button extends Component {
       'premium',
       'dark',
       'light',
-      'transparent'
+      'transparent',
     ]),
     /** Underline of Button content */
     priority: oneOf(['primary', 'secondary']),
@@ -32,13 +32,13 @@ class Button extends Component {
     /** String based node */
     children: node,
     /** String based data hook */
-    dataHook: string
+    dataHook: string,
   };
 
   static defaultProps = {
     skin: 'standard',
     priority: 'primary',
-    size: 'medium'
+    size: 'medium',
   };
 
   render() {

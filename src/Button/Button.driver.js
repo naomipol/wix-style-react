@@ -1,3 +1,3 @@
 export {
-  buttonNextDriverFactory as buttonDriverFactory
+  buttonNextDriverFactory as buttonDriverFactory,
 } from 'wix-ui-core/drivers/vanilla';
