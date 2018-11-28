@@ -7,7 +7,7 @@ import Label from '../../src/Label';
 import Input from '../../src/Input';
 import ToggleSwitch from '../../src/ToggleSwitch';
 import * as Icons from 'wix-style-react/new-icons';
-import IconChooser from '../Button/IconChooser';
+import IconChooser from '../Deprecated/Button/IconChooser';
 
 import styles from './ExampleButton.scss';
 

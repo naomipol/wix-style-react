@@ -3,10 +3,10 @@ import Button from 'wix-style-react/Button';
 import icons from './icons-for-story';
 
 export default {
-  category: '5. Buttons',
-  storyName: '5.1 Standard',
+  category: 'Deprecated',
+  storyName: '5.1 Standard Button',
   component: Button,
-  componentPath: '../../src/Backoffice/Button',
+  componentPath: '../../../src/Backoffice/Button',
 
   componentProps: {
     theme: 'fullblue',

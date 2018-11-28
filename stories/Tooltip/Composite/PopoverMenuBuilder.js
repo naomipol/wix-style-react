@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconChooser from '../../Button/IconChooser';
+import IconChooser from '../../Deprecated/Button/IconChooser';
 import Input from 'wix-style-react/Input';
 import Checkbox from 'wix-style-react/Checkbox';
 import { Button } from 'wix-style-react/Backoffice';

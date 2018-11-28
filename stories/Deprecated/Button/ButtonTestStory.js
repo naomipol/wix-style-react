@@ -1,11 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import queryString from 'query-string';
-import pick from '../../src/utils/operators/pick';
-import { TESTS_PREFIX } from '../storiesHierarchy';
+import pick from '../../../src/utils/operators/pick';
+import { TESTS_PREFIX } from '../../storiesHierarchy';
 import Button from 'wix-style-react/Button';
-import Check from '../../src/new-icons/Check';
-import X from '../../src/new-icons/X';
+import Check from '../../../src/new-icons/Check';
+import X from '../../../src/new-icons/X';
 
 const BUTTON_PADDING = '5px';
 const COLUMN_STYLE = { margin: '5px', border: '1px solid' };
