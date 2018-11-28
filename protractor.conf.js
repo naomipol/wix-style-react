@@ -4,5 +4,5 @@ module.exports.config = {
   jasmineNodeOpts: { defaultTimeoutInterval: 60000 },
   onPrepare() {
     browser.ignoreSynchronization = true;
-  }
+  },
 };
