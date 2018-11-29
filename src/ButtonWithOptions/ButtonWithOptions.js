@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import WixComponent from '../BaseComponents/WixComponent';
 import DropdownLayout from '../DropdownLayout/DropdownLayout';
 import Button from '../Button';
+import ButtonLayout from '../ButtonLayout';
 import ChevronDown from '../new-icons/ChevronDown';
 
 import styles from './ButtonWithOptions.scss';
@@ -55,7 +56,6 @@ class ButtonWithOptions extends WixComponent {
     const { children } = this.buttonElement.props;
     const { selectedId } = this.state;
     const { theme } = this.props;
-
     if (theme.indexOf('no-border') === -1 || selectedId < 0) {
       return children;
     }
@@ -139,7 +139,7 @@ ButtonWithOptions.defaultProps = {
   ...DropdownLayout.defaultProps,
   onSelect: () => {},
   restrainDropdownSize: true,
-  theme: Button.defaultProps.theme,
+  theme: ButtonLayout.defaultProps.theme,
 };
 
 ButtonWithOptions.propTypes = {

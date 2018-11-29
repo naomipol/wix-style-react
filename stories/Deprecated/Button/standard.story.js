@@ -4,7 +4,7 @@ import icons from './icons-for-story';
 
 export default {
   category: 'Deprecated',
-  storyName: '5.1 Standard Button',
+  storyName: 'Button',
   component: Button,
   componentPath: '../../../src/Backoffice/Button',
 

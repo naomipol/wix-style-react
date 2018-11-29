@@ -20,9 +20,9 @@ class Button extends Component {
       'transparent',
     ]),
     /** Underline of Button content */
-    priority: oneOf(['primary', 'secondary']),
+    priority: oneOf(['secondary']),
     /** Size of Button content */
-    size: oneOf(['small', 'medium']),
+    size: oneOf(['tiny', 'small', 'medium', 'large']),
     /** Element based icon (svg, image etc.) */
     suffixIcon: element,
     /** Element based icon (svg, image etc.) */
@@ -33,12 +33,15 @@ class Button extends Component {
     children: node,
     /** String based data hook */
     dataHook: string,
+
+    new: bool,
   };
 
   static defaultProps = {
     skin: 'standard',
     priority: 'primary',
     size: 'medium',
+    new: true,
   };
 
   render() {
