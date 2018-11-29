@@ -15,7 +15,7 @@ export default {
     new: true,
     children: 'Button',
     skin: 'standard',
-    priority: '',
+    priority: 'primary',
     size: 'medium',
   },
 

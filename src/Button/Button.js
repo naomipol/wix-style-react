@@ -20,7 +20,7 @@ class Button extends Component {
       'transparent',
     ]),
     /** Underline of Button content */
-    priority: oneOf(['secondary']),
+    priority: oneOf(['primary', 'secondary']),
     /** Size of Button content */
     size: oneOf(['tiny', 'small', 'medium', 'large']),
     /** Element based icon (svg, image etc.) */
@@ -33,7 +33,7 @@ class Button extends Component {
     children: node,
     /** String based data hook */
     dataHook: string,
-
+    /** Flag to enable new button functionality */
     new: bool,
   };
 
