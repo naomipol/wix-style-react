@@ -23,6 +23,7 @@ export default {
     onClick: () => 'Clicked!',
     prefixIcon: icons,
     suffixIcon: icons,
+    fullWidth: false,
     disabled: false,
   },
 

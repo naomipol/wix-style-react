@@ -24,6 +24,8 @@ class Button extends Component {
     priority: oneOf(['primary', 'secondary']),
     /** Size of Button content */
     size: oneOf(['tiny', 'small', 'medium', 'large']),
+    /** Sets button width to 100% */
+    fullWidth: bool,
     /** Element based icon (svg, image etc.) */
     suffixIcon: element,
     /** Element based icon (svg, image etc.) */
@@ -50,6 +52,7 @@ class Button extends Component {
       skin,
       priority,
       size,
+      fullWidth,
       children,
       className,
       dataHook,
@@ -57,10 +60,16 @@ class Button extends Component {
       ...rest
     } = this.props;
 
+    const styles = fullWidth ? { width: '100%' } : {};
     const classNames = cx(className, button(skin, priority, size));
 
     return (
-      <ButtonNext {...rest} data-hook={dataHook} className={classNames}>
+      <ButtonNext
+        {...rest}
+        style={styles}
+        data-hook={dataHook}
+        className={classNames}
+      >
         {children}
       </ButtonNext>
     );
