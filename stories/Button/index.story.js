@@ -25,4 +25,6 @@ export default {
     suffixIcon: icons,
     disabled: false,
   },
+
+  examples: <ButtonStory />,
 };

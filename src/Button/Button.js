@@ -13,6 +13,7 @@ class Button extends Component {
     /** Skins of Button content */
     skin: oneOf([
       'standard',
+      'inverted',
       'destructive',
       'premium',
       'dark',

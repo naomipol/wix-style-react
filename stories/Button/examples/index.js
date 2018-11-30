@@ -3,6 +3,10 @@ import React from 'react';
 import LiveCodeExample from '../../utils/Components/LiveCodeExample';
 
 import ExamplesFilled from '!raw-loader!./ExamplesFilled';
+import ExamplesGhost from '!raw-loader!./ExamplesGhost';
+import ExamplesSizes from '!raw-loader!./ExamplesSizes';
+import ExamplesPrefix from '!raw-loader!./ExamplesPrefix';
+import ExamplesSuffix from '!raw-loader!./ExamplesSuffix';
 
 const controlledWidth = {
   height: 'auto',
@@ -31,8 +35,44 @@ class ButtonStory extends React.Component {
             <LiveCodeExample
               compact
               previewRow
-              title="Button - filled buttons"
+              title="Button - filled buttons (primary)"
               initialCode={ExamplesFilled}
+            />
+          </Box>
+          <Box>
+            <LiveCodeExample
+              compact
+              previewRow
+              title="Button - ghost buttons (secondary)"
+              initialCode={ExamplesGhost}
+            />
+          </Box>
+        </Container>
+        <Container>
+          <Box>
+            <LiveCodeExample
+              compact
+              previewRow
+              title="Button - sizes"
+              initialCode={ExamplesSizes}
+            />
+          </Box>
+          <Box>
+            <LiveCodeExample
+              compact
+              previewRow
+              title="Button - prefix icon"
+              initialCode={ExamplesPrefix}
+            />
+          </Box>
+        </Container>
+        <Container>
+          <Box>
+            <LiveCodeExample
+              compact
+              previewRow
+              title="Button - suffix icon"
+              initialCode={ExamplesSuffix}
             />
           </Box>
         </Container>
