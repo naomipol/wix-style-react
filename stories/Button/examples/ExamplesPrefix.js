@@ -1,7 +1,7 @@
 /* eslint-disable */
 <div>
-  <Button new size="tiny" prefixIcon={<Add />}>tiny</Button>
-  <Button new size="small" prefixIcon={<Add />}>small</Button>
-  <Button new size="medium" prefixIcon={<Add />}>medium</Button>
-  <Button new size="large" prefixIcon={<Add />}>large</Button>
+  <Button upgrade size="tiny" prefixIcon={<Add />}>tiny</Button>
+  <Button upgrade size="small" prefixIcon={<Add />}>small</Button>
+  <Button upgrade size="medium" prefixIcon={<Add />}>medium</Button>
+  <Button upgrade size="large" prefixIcon={<Add />}>large</Button>
 </div>

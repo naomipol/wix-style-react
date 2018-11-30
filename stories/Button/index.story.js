@@ -12,7 +12,7 @@ export default {
   componentPath: '../../src/Button/Button.js',
 
   componentProps: {
-    new: true,
+    upgrade: true,
     children: 'Button',
     skin: 'standard',
     priority: 'primary',

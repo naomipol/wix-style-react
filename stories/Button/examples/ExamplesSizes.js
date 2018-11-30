@@ -1,7 +1,7 @@
 /* eslint-disable */
 <div>
-  <Button new size="tiny">tiny</Button>
-  <Button new size="small">small</Button>
-  <Button new size="medium">medium</Button>
-  <Button new size="large">large</Button>
+  <Button upgrade size="tiny">tiny</Button>
+  <Button upgrade size="small">small</Button>
+  <Button upgrade size="medium">medium</Button>
+  <Button upgrade size="large">large</Button>
 </div>

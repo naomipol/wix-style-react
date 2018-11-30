@@ -5,7 +5,11 @@ import WixComponent from '../../BaseComponents/WixComponent';
 import ButtonLayout from '../../ButtonLayout/ButtonLayout';
 import { withFocusable, focusableStates } from '../../common/Focusable';
 import { pickAccessibilityProps } from '../../common/accessibility';
+import deprecationLog from '../../utils/deprecationLog';
 
+deprecationLog(
+  'Using "Button" with current api is deprecated. In order to upgrade to the new Button api just pass prop "upgrade" and follow "5.1 Button" changed api docs. For old api refer to "5.1 Button" under "Deprecated" section.',
+);
 class Button extends WixComponent {
   static displayName = 'Button';
 

@@ -35,14 +35,14 @@ class Button extends Component {
     /** String based data hook */
     dataHook: string,
     /** Flag to enable new button functionality */
-    new: bool,
+    upgrade: bool,
   };
 
   static defaultProps = {
     skin: 'standard',
     priority: 'primary',
     size: 'medium',
-    new: true,
+    upgrade: true,
   };
 
   render() {
@@ -53,6 +53,7 @@ class Button extends Component {
       children,
       className,
       dataHook,
+      upgrade,
       ...rest
     } = this.props;
 
