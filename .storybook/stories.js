@@ -59,10 +59,10 @@ import '../stories/GoogleAddressInputWithLabel'; // 4.8 Google address input
 
 // 5. Buttons
 import '../stories/ButtonLayout.story.js'; // 5.0 ButtonLayout
-import '../stories/Button/standard.story.js'; // 5.1 Standard
+import '../stories/Button/index.story.js'; // 5.1 Standard
 import '../stories/IconButton/index.story'; // 5.2 Icon Button
 import '../stories/TextButton/index.story'; // 5.3 Text Button
-import '../stories/CloseButton/index.story.js' // 5.4 Close Button
+import '../stories/CloseButton/index.story.js'; // 5.4 Close Button
 import '../stories/TextLink/index.story.js'; // 5.8 Text Link
 
 // 6. Navigation
@@ -139,6 +139,9 @@ import '../stories/TPA/Label';
 import '../stories/Typography/TypographyTestStories';
 import '../stories/Page/PageTestStories.js'; // Tests/2. Layout/2.5 + Page/
 import '../stories/PageHeader/PageHeaderTestStories.js'; // Tests/2. Layout/2.5 + PageHeader/
-import '../stories/Button/ButtonTestStory'; // Tests/5. Buttons
+import '../stories/Deprecated/Button/ButtonTestStory'; // Tests/5. Buttons
 import '../stories/Tooltip/Composite/PopoverMenuRegressionTest.js'; // Tests/7.3. Popover Menu/
 import '../stories/Avatar/AvatarTestStory'; // Tests/12. Other
+
+// Deprecated
+import '../stories/Deprecated/Button/standard.story.js';
