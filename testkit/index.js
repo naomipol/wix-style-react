@@ -470,3 +470,9 @@ import { iconButtonDriverFactory } from '../src/IconButton/IconButton.driver';
 export const iconButtonTestkitFactory = uniTestkitFactoryCreator(
   iconButtonDriverFactory,
 );
+
+import { carouselDriverFactory } from '../src/Carousel/Carousel.driver';
+
+export const carouselTestkitFactory = uniTestkitFactoryCreator(
+  carouselDriverFactory,
+);
