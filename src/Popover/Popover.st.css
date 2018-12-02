@@ -25,7 +25,12 @@ WHITE;
     bounce;
 
   -st-extends: Popover;
+
+  /* This will cause the container's height to stay the same when the appendTo="parent" */
+  /* TODO: this solution may break the positioning of <Popover.Element/>. Need to investigate. */
+  display:-flex;
 }
+
 
 /* Default styles with dark theme */
 .root::popoverContent {

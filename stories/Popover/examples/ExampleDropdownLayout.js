@@ -44,7 +44,6 @@ class ExampleDropdownLayout extends React.Component {
         style={{
           textAlign: 'center',
           padding: 50,
-          height: 300,
         }}
       >
         <div>Notice how the Popover position is always in the viewport.</div>

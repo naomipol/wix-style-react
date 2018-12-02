@@ -1,6 +1,6 @@
 import React from 'react';
 import CodeExample from 'wix-storybook-utils/CodeExample';
-import { storySettings } from './storySettings';
+import { storySettings, placements } from './storySettings';
 
 import Popover from '../../src/Popover';
 
@@ -9,6 +9,12 @@ import ExampleDynamicContentRaw from '!raw-loader!./examples/ExampleDynamicConte
 
 import ExampleDropdownLayout from './examples/ExampleDropdownLayout';
 import ExampleDropdownLayoutRaw from '!raw-loader!./examples/ExampleDropdownLayout';
+
+import ExampleAppendTo from './examples/ExampleAppendTo';
+import ExampleAppendToRaw from '!raw-loader!./examples/ExampleAppendTo';
+
+import ExamplePositioning from './examples/ExamplePositioning';
+import ExamplePositioningRaw from '!raw-loader!./examples/ExamplePositioning';
 
 const children = [
   {
@@ -62,23 +68,7 @@ export default {
       { label: 'null', value: null },
     ],
 
-    placement: [
-      'auto-start',
-      'auto',
-      'auto-end',
-      'top-start',
-      'top',
-      'top-end',
-      'right-start',
-      'right',
-      'right-end',
-      'bottom-end',
-      'bottom',
-      'bottom-start',
-      'left-end',
-      'left',
-      'left-start',
-    ],
+    placement: placements,
   },
 
   examples: (
@@ -89,6 +79,14 @@ export default {
 
       <CodeExample title="With DropdownLayout" code={ExampleDropdownLayoutRaw}>
         <ExampleDropdownLayout />
+      </CodeExample>
+
+      <CodeExample title="AppendTo prop" code={ExampleAppendToRaw}>
+        <ExampleAppendTo />
+      </CodeExample>
+
+      <CodeExample title="Positioning" code={ExamplePositioningRaw}>
+        <ExamplePositioning />
       </CodeExample>
     </div>
   ),
