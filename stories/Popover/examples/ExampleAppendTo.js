@@ -78,7 +78,7 @@ export default () => (
           marginTop: 25,
         }}
       >
-        <ul style={{ padding: '0 0 80px' }}>
+        <ul style={{ padding: '0 0 100px' }}>
           <PopoverWithState appendTo="scrollParent" />
         </ul>
       </div>

@@ -16,6 +16,9 @@ import ExampleAppendToRaw from '!raw-loader!./examples/ExampleAppendTo';
 import ExamplePositioning from './examples/ExamplePositioning';
 import ExamplePositioningRaw from '!raw-loader!./examples/ExamplePositioning';
 
+import ExampleInteractive from './examples/ExampleInteractive';
+import ExampleInteractiveRaw from '!raw-loader!./examples/ExampleInteractive';
+
 const children = [
   {
     label: 'Content without padding',
@@ -87,6 +90,10 @@ export default {
 
       <CodeExample title="Positioning" code={ExamplePositioningRaw}>
         <ExamplePositioning />
+      </CodeExample>
+
+      <CodeExample title="Interactive" code={ExampleInteractiveRaw}>
+        <ExampleInteractive />
       </CodeExample>
     </div>
   ),
