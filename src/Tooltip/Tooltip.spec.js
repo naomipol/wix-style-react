@@ -4,8 +4,6 @@ import tooltipDriverFactory from './Tooltip.driver';
 import Tooltip from './Tooltip';
 import TooltipContent from './TooltipContent';
 import { buttonTestkitFactory, tooltipTestkitFactory } from '../../testkit';
-import { tooltipTestkitFactory as enzymeTooltipTestkitFactory } from '../../testkit/enzyme';
-import { mount } from 'enzyme';
 import {
   createRendererWithDriver,
   render,
@@ -32,14 +30,6 @@ describe('Tooltip', () => {
 
   afterEach(async () => {
     cleanup();
-    if (driverForCleanup) {
-      await eventually(
-        () =>
-          !driverForCleanup.isShown() || Promise.reject('Tooltip still open'),
-        { timeout: 20, interval: 10 },
-      );
-      driverForCleanup = undefined;
-    }
   });
 
   it('should be hidden by default', () => {
@@ -528,15 +518,6 @@ describe('Tooltip', () => {
       return driver;
     };
 
-    it('should exist', () => {
-      const driver = createTooltipTestkitDriver();
-      driver.mouseEnter();
-      expect(driver.isShown()).toBeFalsy();
-      return resolveIn(30).then(() => {
-        expect(driver.isShown()).toBeTruthy();
-      });
-    });
-
     it('should exist with default props when appendToParent', () => {
       const driver = createTooltipTestkitDriver({ appendToParent: true });
       driver.mouseEnter();
@@ -572,41 +553,19 @@ describe('Tooltip', () => {
     });
   });
 
-  describe('enzyme testkit', () => {
-    it('should exist', () => {
-      const dataHook = 'myDataHook';
-      const wrapper = mount(
-        <Tooltip dataHook={dataHook} {..._props}>
+  describe('showImmediately', () => {
+    it('should remove a tooltip immediately once the component is destroyed', () => {
+      const { driver } = renderComp(
+        <Tooltip {..._props} hideDelay={1000}>
           {children}
         </Tooltip>,
       );
-      const driver = enzymeTooltipTestkitFactory({ wrapper, dataHook });
       driver.mouseEnter();
-      expect(driver.isShown()).toBeFalsy();
       return resolveIn(30).then(() => {
         expect(driver.isShown()).toBeTruthy();
-        wrapper.unmount();
+        cleanup();
+        expect(driver.isShown()).toBeFalsy();
       });
-    });
-
-    it('should remove a tooltip immediately once the component is destroyed', () => {
-      const dataHook = 'myDataHook';
-      const wrapper = mount(
-        <Tooltip dataHook={dataHook} {..._props} hideDelay={1000}>
-          {children}
-        </Tooltip>,
-      );
-      const driver = enzymeTooltipTestkitFactory({ wrapper, dataHook });
-      driver.mouseEnter();
-      return resolveIn(30)
-        .then(() => {
-          expect(driver.isShown()).toBeTruthy();
-          wrapper.unmount();
-          return resolveIn(1);
-        })
-        .then(() => {
-          expect(driver.isShown()).toBeFalsy();
-        });
     });
 
     it('should have fadeIn class and delay when showImmediately is unspecified', () => {

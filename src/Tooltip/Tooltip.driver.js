@@ -38,6 +38,7 @@ const tooltipDriverFactory = ({ element, wrapper }) => {
   };
 
   return {
+    exists: () => !!element,
     isShown,
     focus: () => ReactTestUtils.Simulate.focus(element),
     blur: () => ReactTestUtils.Simulate.blur(element),
