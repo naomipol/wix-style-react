@@ -13,6 +13,8 @@ import importAllComponents from '../test/utils/import-all-components';
 import * as reactTestUtilsTestkitFactories from './index';
 import * as enzymeTestkitFactories from './enzyme';
 
+import Popover from '../src/Popover';
+
 /**
  * The following list ignores specified components and skip testkit tests for them.
  * Reason is that some of them are not meant to have testkits, some are failing due to missing configuration (e.g.
@@ -142,6 +144,18 @@ const COMPONENTS = {
     props: {
       isOpen: false,
       contentLabel: 'modal_12345678',
+    },
+  },
+  Popover: {
+    props: {
+      children: [
+        <Popover.Element>
+          <div>I am the trigger!</div>
+        </Popover.Element>,
+        <Popover.Content>
+          <div>I am the content!</div>
+        </Popover.Content>,
+      ],
     },
   },
 };
