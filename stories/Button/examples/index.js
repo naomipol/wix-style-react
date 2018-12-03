@@ -79,7 +79,6 @@ class ButtonStory extends React.Component {
           <Box>
             <LiveCodeExample
               compact
-              previewRow
               title="Button - loading"
               initialCode={ExamplesLoading}
             />
