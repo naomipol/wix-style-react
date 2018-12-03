@@ -209,6 +209,12 @@ describe('Calendar', () => {
           />,
         );
 
+        driver.clickOnNthDay(0);
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
+        expect(onChange.mock.calls[0][0].to.getDate()).toEqual(10);
+      });
+
       it(`should call onChange({from: $clickedDay, to: $from}) when a day is clicked, given only 'from'`, () => {
         const driver = createDriver(
           <Calendar
