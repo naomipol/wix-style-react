@@ -71,6 +71,12 @@ export class ReactDOMTestContainer {
     return this;
   }
 
+  createAndDestroyPerSuite() {
+    beforeAll(() => this.create());
+    afterAll(() => this.destroy());
+    return this;
+  }
+
   // Adapter for drivers written for wix-ui-test-utils/createDriverFactory
   createLegacyRenderer(driverFactory) {
     return jsx => {

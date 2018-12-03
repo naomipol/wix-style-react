@@ -381,8 +381,9 @@ class DropdownLayout extends WixComponent {
     // make sure the same item is hovered if options changed
     if (
       this.state.hovered !== NOT_HOVERED_INDEX &&
-      this.props.options[this.state.hovered].id !==
-        nextProps.options[this.state.hovered].id
+      (!nextProps.options[this.state.hovered] ||
+        this.props.options[this.state.hovered].id !==
+          nextProps.options[this.state.hovered].id)
     ) {
       this.setState({
         hovered: this.findIndex(

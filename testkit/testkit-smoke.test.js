@@ -45,7 +45,7 @@ const FAILING_COMPONENTS = [
   'IconWithOptions',
   'Layout',
   'MessageBox',
-  'Modal',
+  // 'Modal',
   'ModalSelectorLayout',
   'MultiSelect',
   'MultiSelectCheckbox',
@@ -66,7 +66,6 @@ const FAILING_COMPONENTS = [
   'Tooltip',
   'VBox', // Component has no testkit
   'Collapse',
-  'WixStyleReact', // NO need for drivers
 ];
 
 /**
@@ -137,6 +136,12 @@ const COMPONENTS = {
   StatsWidget: {
     props: {
       title: 'test title',
+    },
+  },
+  Modal: {
+    props: {
+      isOpen: false,
+      contentLabel: 'modal_12345678',
     },
   },
 };

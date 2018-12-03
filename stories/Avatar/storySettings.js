@@ -1,7 +1,7 @@
 import { Category } from '../storiesHierarchy';
 
 export const storySettings = {
-  category: Category.WIP,
+  category: Category.OTHER,
   storyName: '12.6 Avatar',
   dataHook: 'storybook-avatar',
   testStories: {

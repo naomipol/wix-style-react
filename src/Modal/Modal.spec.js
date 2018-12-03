@@ -1,26 +1,42 @@
 import React from 'react';
+import eventually from 'wix-eventually';
+
 import Modal from './Modal';
 import ModalFactory from './Modal.driver';
-import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
-import sinon from 'sinon';
-import {
-  isTestkitExists,
-  isEnzymeTestkitExists,
-} from '../../test/utils/testkit-sanity';
-import { modalTestkitFactory } from '../../testkit';
-import { modalTestkitFactory as enzymeMessageBoxTestkitFactory } from '../../testkit/enzyme';
-import { mount } from 'enzyme';
+import { resolveIn } from '../../test/utils';
+
+import { ReactDOMTestContainer } from '../../test/dom-test-container';
+
+const MODAL_CLOSE_TIMEOUT = 10;
 
 describe('Modal', () => {
-  const createDriver = createDriverFactory(ModalFactory);
+  const testContainer = new ReactDOMTestContainer().createAndDestroyPerSuite();
+  const renderer = testContainer.createLegacyRenderer(ModalFactory);
+
+  let testDriver;
+  const createDriver = jsx => {
+    testDriver = renderer(jsx);
+    return testDriver;
+  };
+
+  afterEach(async () => {
+    testContainer.unmount();
+    if (testDriver !== null) {
+      await eventually(() => !testDriver.isOpen() || Promise.reject(), {
+        timeout: MODAL_CLOSE_TIMEOUT * 2,
+        interval: 10,
+      });
+    }
+    testDriver = null;
+  });
 
   let props = {};
 
   beforeEach(() => {
-    document.body.innerHTML = ''; //remove previous modals from body
     props = {};
     props.isOpen = true;
     props.contentLabel = 'modal_' + Math.random();
+    props.closeTimeoutMS = MODAL_CLOSE_TIMEOUT;
   });
 
   describe('content', () => {
@@ -79,61 +95,45 @@ describe('Modal', () => {
 
   describe('callbacks', () => {
     it(`should trigger the onAfterOpen function`, () => {
-      props.onAfterOpen = sinon.spy();
+      props.onAfterOpen = jest.fn();
 
       createDriver(<Modal {...props} />);
-      expect(props.onAfterOpen.calledOnce).toBeTruthy();
+      expect(props.onAfterOpen.mock.calls).toHaveLength(1);
     });
 
     it(`should trigger the onRequestClose function when clicking the overlay`, () => {
-      props.onRequestClose = sinon.spy();
+      props.onRequestClose = jest.fn();
       props.shouldCloseOnOverlayClick = true;
       props.closeTimeoutMS = 0;
 
       const driver = createDriver(<Modal {...props} />);
       driver.clickOnOverlay();
 
-      expect(props.onRequestClose.calledOnce).toBeTruthy();
+      expect(props.onRequestClose).toHaveBeenCalledTimes(1);
     });
 
     it(`should trigger the onRequestClose function when clicking the close button`, () => {
-      props.onRequestClose = sinon.spy();
+      props.onRequestClose = jest.fn();
       props.shouldDisplayCloseButton = true;
       props.closeTimeoutMS = 0;
 
       const driver = createDriver(<Modal {...props} />);
       driver.clickOnCloseButton();
 
-      expect(props.onRequestClose.calledOnce).toBeTruthy();
+      expect(props.onRequestClose).toHaveBeenCalledTimes(1);
     });
 
     describe('timeout', () => {
-      let originalTimeout;
-
-      beforeEach(() => {
-        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      });
-      afterEach(() => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-      });
-
-      it(`should wait closeTimeoutMS before removing the modal`, done => {
-        props.closeTimeoutMS = 400;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = props.closeTimeoutMS + 500;
+      it(`should wait closeTimeoutMS before removing the modal`, async () => {
+        props.closeTimeoutMS = 100;
 
         const driver = createDriver(<Modal {...props} />);
-        driver.setProps({
-          isOpen: false,
-        });
+        testContainer.renderSync(<Modal {...props} isOpen={false} />);
 
-        setTimeout(() => {
-          expect(driver.isOpen()).toBeTruthy();
-        }, props.closeTimeoutMS - 50);
-
-        setTimeout(() => {
-          expect(driver.isOpen()).toBeFalsy();
-          done();
-        }, props.closeTimeoutMS + 50);
+        await resolveIn(props.closeTimeoutMS - 50);
+        expect(driver.isOpen()).toBeTruthy();
+        await resolveIn(100);
+        expect(driver.isOpen()).toBeFalsy();
       });
     });
   });
@@ -191,26 +191,6 @@ describe('Modal', () => {
       props.appElement = '#app';
       createDriver(<Modal {...props} />);
       expect(appElemnt.getAttribute('aria-hidden')).toBe('true');
-    });
-  });
-
-  describe('testkit', () => {
-    it('should exist', () => {
-      expect(isTestkitExists(<Modal {...props} />, modalTestkitFactory)).toBe(
-        true,
-      );
-    });
-  });
-
-  describe('enzyme testkit', () => {
-    it('should exist', () => {
-      expect(
-        isEnzymeTestkitExists(
-          <Modal {...props} />,
-          enzymeMessageBoxTestkitFactory,
-          mount,
-        ),
-      ).toBe(true);
     });
   });
 });

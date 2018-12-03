@@ -22,24 +22,13 @@ yarn add wix-style-react
 ```jsx
 import React from 'react';
 import Button from 'wix-style-react/Button';
-import WixStyleReact from 'wix-style-react/WixStyleReact';
 
 const App = () => (
-  <WixStyleReact>
     <Button onClick={() => console.log('thanks for clicking :)')}>
       Click me!
     </Button>
-  </WixStyleReact>
 );
 ```
-
-<details>
-
- <summary>More about WixStyleReact</summary>
-
- WixStyleReact provides default Wix-Style-React styling to WSR components. This is due to the fact that some WSR component are simply components from `wix-ui-core` that need to be provided with the backoffice (wsr) styling theme. More about <a href="https://github.com/wix/wix-ui/blob/master/docs/themes.md">themes</a>)
- 
-</details>
 
 ## Requirements
 

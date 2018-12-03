@@ -29,7 +29,7 @@ const checkboxDriverFactory = element => {
 
   const publicDriver = {
     element: () => element,
-    click: () => element.click(),
+    click: () => checkboxElement.click(),
     getLabel: () => element.$(`label`),
     getInput: () => element.$(`input`),
     isChecked: () => element.$(`input`).isSelected(),

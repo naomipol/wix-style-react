@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { DataTableHeader } from '../../DataTable';
 import { getDataTableProps, createColumns } from '../Table';
@@ -8,7 +9,7 @@ import { BulkSelectionConsumer } from '../BulkSelection';
 /**
  * TitleBar (aka DataTableHeader)
  */
-export const TableTitleBar = () => {
+export const TableTitleBar = ({ dataHook }) => {
   return (
     <TableContext.Consumer>
       {tableProps => {
@@ -27,6 +28,7 @@ export const TableTitleBar = () => {
                       tableProps,
                       bulkSelectionContext,
                     })}
+                    dataHook={dataHook}
                   />
                 </div>
               )}
@@ -44,3 +46,6 @@ export const TableTitleBar = () => {
   );
 };
 TableTitleBar.displayName = 'Table.TitleBar';
+TableTitleBar.propTypes = {
+  dataHook: PropTypes.string,
+};

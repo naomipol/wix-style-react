@@ -1,12 +1,12 @@
 import React from 'react';
-import { bool } from 'prop-types';
+import { bool, string } from 'prop-types';
 import DataTable from '../../DataTable';
 import { getDataTableProps, createColumns } from '../Table';
 import { TableContext } from '../TableContext';
 
 import { BulkSelectionConsumer } from '../BulkSelection';
 
-export const TableContent = ({ titleBarVisible }) => {
+export const TableContent = ({ titleBarVisible, dataHook }) => {
   //TODO: figure out if we need to put result of createColumns() on state, in order to avoid
   // redundant renders.
   return (
@@ -14,7 +14,7 @@ export const TableContent = ({ titleBarVisible }) => {
       {tableProps => {
         const dataTableProps = {
           ...getDataTableProps(tableProps),
-          dataHook: 'table-content',
+          dataHook: tableProps.withWrapper ? 'table-content' : dataHook,
           hideHeader: !titleBarVisible,
         };
 
@@ -42,6 +42,7 @@ export const TableContent = ({ titleBarVisible }) => {
 TableContent.displayName = 'Table.Content';
 TableContent.propTypes = {
   titleBarVisible: bool,
+  dataHook: string,
 };
 TableContent.defaultProps = {
   titleBarVisible: true,

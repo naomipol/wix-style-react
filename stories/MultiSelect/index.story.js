@@ -1,11 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import Markdown from 'wix-storybook-utils/Markdown';
-import TabbedView from 'wix-storybook-utils/TabbedView';
+import queryString from 'query-string';
 import CodeExample from 'wix-storybook-utils/CodeExample';
-
-import Readme from '../../src/MultiSelect/README.md';
-import ReadmeTestKit from '../../src/MultiSelect/README.TESTKIT.md';
+import MultiSelect from '../../src/MultiSelect';
 
 import ExampleStandard from './ExampleStandard';
 import ExampleStandardRaw from '!raw-loader!./ExampleStandard';
@@ -20,11 +16,72 @@ import ExampleReadOnlyWithErrorRaw from '!raw-loader!./ExampleReadOnlyWithError'
 import ExampleReorderable from './ExampleReorderable';
 import ExampleReorderableRaw from '!raw-loader!./ExampleReorderable';
 
-storiesOf('3. Inputs', module).add('3.8 Tags', () => (
-  <TabbedView tabs={['API', 'TestKits']}>
+import styles from './story.scss';
+import { storySettings } from './storySettings';
+import { AutoExampleWrapper } from '../AutoExampleWrapper';
+
+const options = [
+  { value: 'Alabama', id: 'Alabama' },
+  { value: 'Alaska', id: 'Alaska' },
+  {
+    value: (
+      <div className={styles.option}>
+        <div>Arizona</div>
+        <div className={styles.thumb} />
+      </div>
+    ),
+    id: 'Arizona',
+    tag: { label: 'Arizona', thumb: <div className={styles.thumb} /> },
+  },
+  { value: 'Arkansas', id: 'Arkansas', tag: { label: 'Ark.' } },
+  { value: 'California', id: 'California' },
+  { value: 'California2', id: 'California2' },
+  { value: 'California3', id: 'California3' },
+  { value: 'California4', id: 'California4' },
+  { value: 'California5', id: 'California5' },
+  { value: 'California6', id: 'California6' },
+  { value: 'California7', id: 'California7' },
+  { value: 'Two words', id: 'Two words' },
+];
+
+const valueParser = option => (option.tag ? option.tag.label : option.value);
+
+export default {
+  category: storySettings.category,
+  storyName: storySettings.storyName,
+  component: MultiSelect,
+  componentPath: '../../src/MultiSelect',
+  componentWrapper: AutoExampleWrapper,
+  componentProps: (setState, getState) => ({
+    dataHook: storySettings.dataHook,
+    value: '',
+    tags: [],
+    options,
+
+    predicate: option => {
+      return valueParser(option)
+        .toLowerCase()
+        .includes(getState().value.toLowerCase());
+    },
+
+    valueParser,
+    onChange: e => setState({ value: e.target.value }),
+
+    onSelect: tags => {
+      Array.isArray(tags)
+        ? setState({ tags: [...getState().tags, ...tags] })
+        : setState({ tags: [...getState().tags, tags] });
+    },
+
+    onRemoveTag: tagId =>
+      setState({
+        tags: getState().tags.filter(currTag => currTag.id !== tagId),
+      }),
+  }),
+
+  examples: (
     <div>
-      <Markdown source={Readme} />
-      <h1>Usage examples</h1>
+      <h1>Examples</h1>
 
       <CodeExample title="Standard" code={ExampleStandardRaw}>
         <div style={{ maxWidth: 720 }}>
@@ -68,7 +125,5 @@ storiesOf('3. Inputs', module).add('3.8 Tags', () => (
         </div>
       </CodeExample>
     </div>
-
-    <Markdown source={ReadmeTestKit} />
-  </TabbedView>
-));
+  ),
+};

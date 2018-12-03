@@ -528,12 +528,39 @@ describe('DropdownLayout', () => {
       });
       driver.pressDownKey();
       driver.pressDownKey();
+      driver.pressDownKey();
+      driver.pressDownKey();
 
-      expect(driver.isOptionHovered(1)).toBeTruthy();
+      expect(driver.isOptionHovered(3)).toBeTruthy();
 
       wrapper.setProps({ options: options.slice(1) });
 
-      expect(driver.isOptionHovered(0)).toBeTruthy();
+      expect(driver.isOptionHovered(2)).toBeTruthy();
+    });
+
+    it('should reset the hovered option when options change and hovered option does not exist anymore', () => {
+      const initialOptions = [
+        { id: 0, value: 'a 1' },
+        { id: 1, value: 'a 2' },
+        { id: 2, value: 'a 3' },
+        { id: 3, value: 'a 4' },
+      ];
+
+      const wrapper = mount(
+        <DropdownLayout visible options={initialOptions} />,
+      );
+      const driver = dropdownLayoutDriverFactory({
+        element: wrapper.getDOMNode(),
+      });
+      driver.pressDownKey();
+      driver.pressDownKey();
+
+      expect(driver.isOptionHovered(1)).toBeTruthy();
+
+      wrapper.setProps({ options: initialOptions.slice(2) });
+
+      expect(driver.isOptionHovered(0)).toBeFalsy();
+      expect(driver.isOptionHovered(1)).toBeFalsy();
     });
   });
 

@@ -76,11 +76,11 @@ describe('Backoffice Button', () => {
         eyes.it(
           `should display all themes with props=${JSON.stringify(props)}`,
           async () => {
-            const storyUrl = getStoryUrl(
+            const baseUrl = getStoryUrl(
               `${TESTS_PREFIX}/5. Buttons`,
               '5.0 ButtonLayout',
             );
-            await browser.get(`${storyUrl}&${queryString.stringify(props)}`);
+            await browser.get(`${baseUrl}&${queryString.stringify(props)}`);
           },
         );
       });

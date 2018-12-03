@@ -42,7 +42,7 @@ export class BulkSelection extends React.Component {
     const selectedIds = (props.selectedIds || []).slice();
     this.state = {
       selectedIds, // not exposed to context consumers
-      helpers: this.createHelpers(selectedIds),
+      helpers: this.createHelpers({ ...props, selectedIds }),
     };
   }
 
@@ -51,7 +51,7 @@ export class BulkSelection extends React.Component {
       nextProps.selectedIds &&
       !this.areSelectedIdsEqual(nextProps.selectedIds, this.state.selectedIds)
     ) {
-      this.setSelectedIds(nextProps.selectedIds.slice());
+      this.setSelectedIds(nextProps.selectedIds.slice(), undefined, nextProps);
     }
   }
 
@@ -88,12 +88,15 @@ export class BulkSelection extends React.Component {
     );
   };
 
-  setSelectedIds = (selectedIds, change) => {
+  setSelectedIds = (selectedIds, change, props) => {
     if (!Array.isArray(selectedIds)) {
       throw new Error('selectedIds must be an array');
     }
+    if (!props) {
+      props = this.props;
+    }
     this.setState(
-      { selectedIds, helpers: this.createHelpers(selectedIds) },
+      { selectedIds, helpers: this.createHelpers({ ...props, selectedIds }) },
       () => {
         this.props.onSelectionChanged &&
           this.props.onSelectionChanged(selectedIds.slice(), change);
@@ -116,9 +119,9 @@ export class BulkSelection extends React.Component {
       selectedIds1.every((item, index) => item === selectedIds2[index])
     );
   };
-
-  createHelpers(selectedIds) {
-    const totalCount = this.props.allIds.length;
+  createHelpers(props) {
+    const { selectedIds, allIds } = props;
+    const totalCount = allIds.length;
     const selectedCount = selectedIds.length;
     const bulkSelectionState =
       selectedCount === 0

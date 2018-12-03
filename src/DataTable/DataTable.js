@@ -11,13 +11,16 @@ import Tooltip from '../Tooltip/Tooltip';
 import InfoIcon from '../common/InfoIcon';
 import deprecationLog from '../utils/deprecationLog';
 
-export const DataTableHeader = props => (
-  <div>
-    <table style={{ width: props.width }} className={styles.table}>
-      <TableHeader {...props} />
-    </table>
-  </div>
-);
+export const DataTableHeader = props => {
+  const { dataHook } = props;
+  return (
+    <div data-hook={dataHook}>
+      <table style={{ width: props.width }} className={styles.table}>
+        <TableHeader {...props} />
+      </table>
+    </div>
+  );
+};
 
 DataTableHeader.propTypes = {
   width: PropTypes.string,

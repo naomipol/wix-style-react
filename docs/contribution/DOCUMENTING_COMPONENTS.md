@@ -24,8 +24,30 @@ In this section, the strucutre will be according to the UX definitions of the de
 It contains common examples and use cases, accompanied by explanation how and when to use the components. It will also contain links to the actual component APIs in the next section.
 
 ## Components APIs
-For API documentation, we use [wix-storybook-utils](https://github.com/wix/wix-ui/tree/master/packages/wix-storybook-utils) - a tool built to generate documentation automatically.
+For API documentation, we use [wix-storybook-utils](https://github.com/wix/wix-ui/tree/master/packages/wix-storybook-utils) - a tool built to generate documentation automatically (aka AutoStory, AutoDocs).
 
 It is reponsbile to scrape APIs, testkit drivers and create interactive playground based on props and some code hints.
 
 [Read here](https://github.com/wix/wix-ui/blob/master/packages/wix-storybook-utils/docs/usage.md) how to document components in the library using `wix-storybook-utils`.
+
+### Configuring a component story
+
+Here is a minimal example of an AutoStory configuraiton:
+(file name must have a `.story.js` suffix)
+> MyComp.story.js
+
+```js
+import MyComp from '../../src/MyComp';
+import { storySettings } from './storySettings';
+
+export default {
+  category: storySettings.category,
+  storyName: storySettings.storyName,
+  component: MyComp,
+  componentPath: '../../src/MyComp',
+  componentProps: {
+    dataHook: storySettings.dataHook,
+    value: 'some prop value'
+  }
+}
+```

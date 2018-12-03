@@ -4,6 +4,7 @@ import { waitForVisibilityOf } from 'wix-ui-test-utils/protractor';
 import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 import { tagTestkitFactory } from '../../testkit/protractor';
 import { tooltipTestkitFactory } from 'wix-ui-core/dist/src/testkit/protractor';
+import { createAutoExampleProps } from '../../stories/AutoExampleWrapperContants';
 
 describe('Tag', () => {
   const url = createStoryUrl({ kind: '12. Other', story: '12.5 Tag' });
@@ -17,14 +18,32 @@ describe('Tag', () => {
     return autoExampleDriver.remount();
   });
 
-  ['tiny', 'small', 'medium', 'large'].forEach(size => {
-    eyes.it(`should render ${size} size properly`, async () => {
-      await waitForVisibilityOf(tagDriver.element(), 'Cannot find <Tag/>');
-      autoExampleDriver.setProps({ size });
-      await eyes.checkWindow(`${size} size`);
-      autoExampleDriver.setProps({ removable: false });
-      await eyes.checkWindow(`${size} size: without remove button`);
+  function sizesTests(autoExampleProps) {
+    function setProps(props) {
+      return autoExampleDriver.setProps({
+        ...props,
+        ...createAutoExampleProps(autoExampleProps),
+      });
+    }
+    ['tiny', 'small', 'medium', 'large'].forEach(size => {
+      eyes.it(`should render ${size} size properly`, async () => {
+        await waitForVisibilityOf(tagDriver.element(), 'Cannot find <Tag/>');
+        await setProps({ size });
+        await eyes.checkWindow(`${size} size`);
+        await setProps({ story__withThumb: true }); // story__withThumb is a story prop
+        await eyes.checkWindow(`${size} size`);
+        await setProps({ removable: false });
+        await eyes.checkWindow(`${size} size: without remove button`);
+      });
     });
+  }
+
+  describe('LTR', () => {
+    sizesTests({});
+  });
+
+  describe('RTL', () => {
+    sizesTests({ rtl: true });
   });
 
   eyes.it('should render themes', async () => {
