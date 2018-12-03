@@ -22,7 +22,13 @@ class PopoverWithState extends React.Component {
           padding: 25,
         }}
       >
-        <Popover showArrow placement="right" shown={shown} {...this.props}>
+        <Popover
+          showArrow
+          placement="right"
+          dataHook="story-popover-append-to"
+          shown={shown}
+          {...this.props}
+        >
           <Popover.Element>
             <Button onClick={this.toggle}>Click me to toggle</Button>
           </Popover.Element>

@@ -7,13 +7,18 @@ import {
   scrollToElement,
 } from 'wix-ui-test-utils/protractor';
 import { createTestStoryUrl } from '../../test/utils/storybook-helpers';
-import { storySettings, testStories } from '../../stories/Popover/storySettings';
+import {
+  storySettings,
+  testStories,
+  placements,
+} from '../../stories/Popover/storySettings';
 
 describe('Popover', () => {
   const storyUrl = createStoryUrl({
     kind: storySettings.kind,
     story: storySettings.storyName,
   });
+
   const testStoryUrl = testName =>
     createTestStoryUrl({ ...storySettings, testName });
 
@@ -22,8 +27,9 @@ describe('Popover', () => {
 
     await waitForVisibilityOf(
       driver.element(),
-      'Cannot find Popover component',
+      `Cannot find Popover component ${dataHook}`,
     );
+
     await scrollToElement(driver.element());
     return driver;
   };
@@ -32,12 +38,30 @@ describe('Popover', () => {
     await browser.get(storyUrl);
   });
 
-  eyes.it(`with DropdownLayout example`, async () => {
-    const driver = await createDriver('story-popover-dropdown-layout');
-    await driver.click();
+  describe('examples', () => {
+    eyes.it('with DropdownLayout example', async () => {
+      const driver = await createDriver('story-popover-dropdown-layout');
+      await driver.click();
+    });
+
+    eyes.it('AppendTo prop example', async () => {
+      await createDriver('story-popover-append-to');
+    });
+
+    eyes.it('positioning example', async () => {
+      const examplePlacements = placements.filter(p => !p.includes('auto'));
+
+      for (const placement of examplePlacements) {
+        const driver = await createDriver(
+          `story-popover-positioning-${placement}`,
+        );
+        await driver.mouseEnter();
+        eyes.checkWindow(`${placements} position`);
+      }
+    });
   });
 
-  describe('Test stories', () => {
+  describe('test stories', () => {
     const checkTestStory = async testName => {
       await browser.get(testStoryUrl(testName));
       eyes.checkWindow(testName);

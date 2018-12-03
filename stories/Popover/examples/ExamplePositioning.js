@@ -19,6 +19,7 @@ class PositionedPopover extends React.Component {
       <div style={{ padding: '10px 0' }}>
         <Popover
           appendTo="window"
+          dataHook={`story-popover-positioning-${this.props.placement}`}
           shown={shown}
           onMouseEnter={this.open}
           onMouseLeave={this.close}

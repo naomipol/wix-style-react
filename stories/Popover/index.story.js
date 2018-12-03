@@ -4,9 +4,6 @@ import { storySettings, placements } from './storySettings';
 
 import Popover from '../../src/Popover';
 
-import ExampleDynamicContent from './examples/ExampleDynamicContent';
-import ExampleDynamicContentRaw from '!raw-loader!./examples/ExampleDynamicContent';
-
 import ExampleDropdownLayout from './examples/ExampleDropdownLayout';
 import ExampleDropdownLayoutRaw from '!raw-loader!./examples/ExampleDropdownLayout';
 
@@ -76,10 +73,6 @@ export default {
 
   examples: (
     <div>
-      <CodeExample title="With dynamic content" code={ExampleDynamicContentRaw}>
-        <ExampleDynamicContent />
-      </CodeExample>
-
       <CodeExample title="With DropdownLayout" code={ExampleDropdownLayoutRaw}>
         <ExampleDropdownLayout />
       </CodeExample>
