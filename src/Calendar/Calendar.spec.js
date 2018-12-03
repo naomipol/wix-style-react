@@ -2,6 +2,7 @@ import React from 'react';
 import calendarDriverFactory from './Calendar.driver';
 import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 import Calendar from './Calendar';
+import { createRendererWithDriver, cleanup } from '../../test/utils/react';
 
 const createDriver = createDriverFactory(calendarDriverFactory);
 
@@ -117,19 +118,16 @@ describe('Calendar', () => {
     });
     describe("with selectionMode='day'", () => {
       it('should call onChange with the clicked day', () => {
+        const date = new Date(2018, 10, 5);
         const driver = createDriver(
-          <Calendar
-            value={new Date(2018, 10, 5)}
-            onChange={onChange}
-            selectionMode={'day'}
-          />,
+          <Calendar value={date} onChange={onChange} selectionMode={'day'} />,
         );
 
-        expect(onChange.mock.calls).toHaveLength(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
-        driver.clickOnNthDay(0);
+        driver.clickDay(new Date(2018, 10, 1));
 
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].getDate()).toEqual(1);
       });
     });
@@ -141,7 +139,7 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(0);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
       });
 
@@ -155,7 +153,7 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(0);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
       });
 
@@ -169,7 +167,7 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(0);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
       });
 
@@ -183,7 +181,7 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(2);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
         expect(onChange.mock.calls[0][0].to.getDate()).toEqual(3);
       });
@@ -198,17 +196,17 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(0);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(1);
         expect(onChange.mock.calls[0][0].to.getDate()).toEqual(3);
       });
       it(`should call onChange({from: $clickedDay, to: $from}) if the clicked day is earlier than the provided 'from'`, () => {
         const driver = createDriver(
           <Calendar
-            value={{from: new Date(2018, 10, 10)}}
+            value={{ from: new Date(2018, 10, 10) }}
             onChange={onChange}
             selectionMode={'range'}
-            />
+          />,
         );
 
       it(`should call onChange({from: $clickedDay, to: $from}) when a day is clicked, given only 'from'`, () => {
@@ -221,10 +219,104 @@ describe('Calendar', () => {
         );
 
         driver.clickOnNthDay(2);
-        expect(onChange.mock.calls).toHaveLength(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0].from.getDate()).toEqual(3);
         expect(onChange.mock.calls[0][0].to.getDate()).toEqual(10);
       });
+    });
+  });
+
+  describe('passing a new value prop', () => {
+    const monthNames = 'January February March April May June July August September October November December'.split(
+      ' ',
+    );
+    const SEPTEMBER = 8,
+      OCTOBER = 9,
+      NOVEMBER = 10;
+    const render = createRendererWithDriver(calendarDriverFactory);
+
+    it('should not change the displayed month, provided that current month contains the new Date', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, OCTOBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+      rerender(
+        <Calendar value={new Date(2018, OCTOBER, 2)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+    });
+
+    it('should change the displayed month, provided that the current month is earlier than the new Date', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, OCTOBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+      rerender(
+        <Calendar value={new Date(2018, NOVEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[NOVEMBER]);
+    });
+
+    it('should change the displayed month, provided that the current month is later than the new Date', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, OCTOBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+      rerender(
+        <Calendar value={new Date(2018, SEPTEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[SEPTEMBER]);
+    });
+
+    it('should not change the displayed month, provided that the current month is contained in the new Range', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, OCTOBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+      rerender(
+        <Calendar
+          value={{
+            from: new Date(2018, SEPTEMBER, 1),
+            to: new Date(2018, NOVEMBER, 1),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+    });
+
+    it('should move the displayed month forward, provided that the current month is earlier than the new Range', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, SEPTEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[SEPTEMBER]);
+      rerender(
+        <Calendar
+          value={{
+            from: new Date(2018, OCTOBER, 1),
+            to: new Date(2018, NOVEMBER, 1),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+    });
+
+    it('should move the displayed month back, provided that the current month is later than the new Range', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, NOVEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[NOVEMBER]);
+      rerender(
+        <Calendar
+          value={{
+            from: new Date(2018, SEPTEMBER, 1),
+            to: new Date(2018, OCTOBER, 1),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
     });
   });
 });

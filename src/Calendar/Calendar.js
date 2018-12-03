@@ -32,15 +32,53 @@ export default class Calendar extends WixComponent {
     };
   }
 
+  static dateToMonth(date) {
+    return date ? date.getFullYear() * 100 + date.getMonth() : null;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value != nextProps.value) {
+      const currentMonth = Calendar.dateToMonth(this.state.month);
+
+      if (nextProps.value instanceof Date) {
+        if (currentMonth != Calendar.dateToMonth(nextProps.value)) {
+          this.setState({ month: nextProps.value });
+        }
+      } else {
+        const from = Calendar.dateToMonth(nextProps.value.from);
+        const to = Calendar.dateToMonth(nextProps.value.to);
+
+        if (from && currentMonth < from) {
+          this.setState({ month: nextProps.value.from });
+        } else if (to && currentMonth > to) {
+          this.setState({ month: nextProps.value.to });
+        }
+      }
+    }
+  }
+
   static renderDay(day, modifiers) {
     const relevantModifiers = ['start', 'end', 'selected'];
     for (const modifier of relevantModifiers) {
       if (modifier in modifiers) {
-        return <div className={styles.dayCircle}>{day.getDate()}</div>;
+        return (
+          <div
+            className={styles.dayCircle}
+            data-date={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`}
+          >
+            {day.getDate()}
+          </div>
+        );
       }
     }
 
-    return day.getDate();
+    return (
+      <div
+        data-date={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`}
+      >
+        {day.getDate()}
+      </div>
+    );
   }
 
   _setMonth = month => {
@@ -75,24 +113,18 @@ export default class Calendar extends WixComponent {
 
   _getMonth = props => {
     const { value } = props;
+    const optionalParse = x => (typeof x === 'string' ? parse(x) : x);
 
     const { from, to } = value || {};
-    if (!from && !to && !(value instanceof Date)) {
+    if (
+      !optionalParse(from) &&
+      !optionalParse(to) &&
+      !(optionalParse(value) instanceof Date)
+    ) {
       return new Date();
     } else {
-      return parse(from || to || value);
+      return optionalParse(from || to || value);
     }
-  };
-
-  _getMonth = props => {
-    const { value, selectedDays } = props;
-
-    return (
-      (selectedDays || {}).from ||
-      (selectedDays || {}).to ||
-      selectedDays ||
-      value
-    );
   };
 
   _createDayPickerProps = () => {
@@ -111,7 +143,7 @@ export default class Calendar extends WixComponent {
     const localeUtils = localeUtilsFactory(locale);
     const from = propsValue && propsValue.from && parse(propsValue.from);
     const to = propsValue && propsValue.to && parse(propsValue.to);
-    const singleDay = !from && !to && propsValue;
+    const singleDay = !from && !to && parse(propsValue);
 
     const firstOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
     const lastOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
@@ -128,9 +160,10 @@ export default class Calendar extends WixComponent {
     } else if (from && to) {
       selectedDaysProp = { from: parse(from), to: parse(to) };
     } else {
-      selectedDaysProp = parse(propsValue);
+      selectedDaysProp = singleDay;
     }
-
+    //console.error(selectedDaysProp);
+    //throw Error(selectedDaysProp);
     const captionElement = (
       <DatePickerHead
         {...{
@@ -266,7 +299,14 @@ Calendar.propTypes = {
   rtl: PropTypes.bool,
 
   /** The selected date */
-  value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(Date),
+    PropTypes.shape({
+      from: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+      to: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    }),
+  ]),
 
   /** Whether the user should be able to select a date range, or just a single day */
   selectionMode: PropTypes.oneOf(['day', 'range']),

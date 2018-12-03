@@ -143,7 +143,7 @@ $hoverBoxShadow: 0 0 0 $boxShadowWidth $F00;
   
     &.DayPicker-Day--selected.DayPicker-Day--start:not(.DayPicker-Day--outside),
     &.DayPicker-Day--selected.DayPicker-Day--end:not(.DayPicker-Day--outside),
-    &.DayPicker-Day--singleDay:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    &.DayPicker-Day--singleDay:not(.DayPicker-Day--outside) {
       :local(.dayCircle) {
         background-color: $B10;
       }
