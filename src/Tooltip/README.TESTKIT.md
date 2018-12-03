@@ -44,63 +44,78 @@ beforeAll(() => {
 
 ## Usage Example
 
-> Unit testing example
+### Cleanup
+
+When Tooltip is unmounted, it immediately removes any opened Tooltip content (with no timers). So It is enough to simply unmount it. (No need to wait for anything)
+
+### Example Enzyme
+
+```javascript
+import React from 'react';
+import {tooltipTestkitFactory as enzymeTooltipTestkitFactory} from 'wix-style-react/dist/testkit/enzyme';
+import waitForCond from 'wait-for-cond';
+
+function waitFor(predicate, msg) {
+  return waitForCond(predicate, 2000, msg);
+}
+
+const dataHook = 'myDataHook';
+const wrapper = mount(<Tooltip dataHook={dataHook} {..._props}>{children}</Tooltip>);
+const testkit = enzymeTooltipTestkitFactory({wrapper, dataHook});
+
+//Do tests
+testkit.mouseEnter();
+expect(testkit.isShown()).toBeFalsy();
+return waitFor.assert(() => expect(testkit.isShown()).toBeTruthy());
+
+// Cleanup
+wrapper.unmount();
+```
+
+### Example Plain React
+
+We recommend using `react-testing-library`.
 
 ```javascript
   import React from 'react';
+  import {render, cleanup} from 'react-testing-library';
   import {tooltipTestkitFactory as tooltipTestkitFactory} from 'wix-style-react/dist/testkit';
-  import {tooltipTestkitFactory as enzymeTooltipTestkitFactory} from 'wix-style-react/dist/testkit/enzyme';
   import waitForCond from 'wait-for-cond';
 
   function waitFor(predicate, msg) {
     return waitForCond(predicate, 2000, msg);
   }
 
-  /***************
-   enzyme example
-  ***************/
-
   const dataHook = 'myDataHook';
-  const wrapper = mount(<Tooltip dataHook={dataHook} {..._props}>{children}</Tooltip>);
-  const testkit = enzymeTooltipTestkitFactory({wrapper, dataHook});
-
-  //Do tests
-  testkit.mouseEnter();
-  expect(testkit.isShown()).toBeFalsy();
-  return waitFor.assert(() => expect(testkit.isShown()).toBeTruthy());
-
-  /**********************
-   ReactTestUtils example
-  **********************/
-
-  const div = document.createElement('div');
-  const dataHook = 'myDataHook';
-  const wrapper = div.appendChild(
-    ReactTestUtils.renderIntoDocument(<div><Tooltip dataHook={dataHook} {..._props}>{children}</Tooltip></div>)
+  const { container : wrapper } = render(
+      <Tooltip dataHook={dataHook} {..._props}>{children}</Tooltip>
+    )
   );
   const testkit = tooltipTestkitFactory({wrapper, dataHook});
   
-  //Do tests
+  // Do tests
   testkit.mouseEnter();
   expect(testkit.isShown()).toBeFalsy();
   return waitFor.assert(() => expect(testkit.isShown()).toBeTruthy());
+
+  // Cleanup
+  cleanup();
 ```
 
+### Example Puppeteer
+
 ```javascript
-/*******************
-   puppeteer example
-  *******************/
 
-  import puppeteer from 'puppeteer';
-  import {tooltipTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
+import puppeteer from 'puppeteer';
+import {tooltipTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
 
-  //puppeteer setup
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+//puppeteer setup
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
 
-  //Create an element testkit via the data-hook attribute
-  const testkit = await tooltipTestkitFactory({dataHook: 'myDataHook', page});
-  await page.goto(appUrl); //Your application url
+//Create an element testkit via the data-hook attribute
+const testkit = await tooltipTestkitFactory({dataHook: 'myDataHook', page});
+await page.goto(appUrl); //Your application url
 
-  expect(await testkit.getTooltipTextContent()).to.equal('my test');
+expect(await testkit.getTooltipTextContent()).to.equal('my test');
 ```

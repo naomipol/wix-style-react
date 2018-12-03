@@ -44,7 +44,7 @@ it('should do something', async ()=> {
 });
 ```
 
-### Example Plain React
+### Example Plain React (ReactTestUtils)
 
 ```javascript
 import React from 'react';
