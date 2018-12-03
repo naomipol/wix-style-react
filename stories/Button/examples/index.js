@@ -7,6 +7,7 @@ import ExamplesGhost from '!raw-loader!./ExamplesGhost';
 import ExamplesSizes from '!raw-loader!./ExamplesSizes';
 import ExamplesPrefix from '!raw-loader!./ExamplesPrefix';
 import ExamplesSuffix from '!raw-loader!./ExamplesSuffix';
+import ExamplesLoading from '!raw-loader!./ExamplesLoading';
 
 const controlledWidth = {
   height: 'auto',
@@ -73,6 +74,14 @@ class ButtonStory extends React.Component {
               previewRow
               title="Button - suffix icon"
               initialCode={ExamplesSuffix}
+            />
+          </Box>
+          <Box>
+            <LiveCodeExample
+              compact
+              previewRow
+              title="Button - loading"
+              initialCode={ExamplesLoading}
             />
           </Box>
         </Container>
