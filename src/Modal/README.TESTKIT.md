@@ -17,7 +17,13 @@
 
 ## Usage Example
 
-> Unit testing example - enzyme
+### Cleanup - Waiting For Modal To Close
+
+In your tests, you should do proper cleanup after each test.
+The Modal has a `closeTimeoutMS`, so if you leave it open, even if you unmount it, it will stay open for the `closeTimeoutMS` duration.
+Notice that in the following examples we are waiting for the Modal to actually close.
+
+### Example Enzyme
 
 ```javascript
 import React from 'react';
@@ -34,11 +40,11 @@ it('should do something', async ()=> {
 
   // Cleanup
   wrapper.unmount();
-  await eventually(() => !testkit.isOpen() || Promise.reject());
+  await eventually(() => !testkit.isOpen() || Promise.reject('Modal still open'));
 });
 ```
 
-> Unit testing example - vanilla
+### Example Plain React
 
 ```javascript
 import React from 'react';
@@ -59,6 +65,6 @@ it('should do something', async ()=> {
 
   // Cleanup
   ReactDOM.unmountComponentAtNode(wrapper);
-  await eventually(() => !testkit.isOpen() || Promise.reject());
+  await eventually(() => !testkit.isOpen() || Promise.reject('Modal still open'));
 });
 ```
