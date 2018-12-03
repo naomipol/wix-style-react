@@ -18,7 +18,6 @@ class PositionedPopover extends React.Component {
     return (
       <div style={{ padding: '10px 0' }}>
         <Popover
-          showArrow
           appendTo="window"
           shown={shown}
           onMouseEnter={this.open}
@@ -32,9 +31,7 @@ class PositionedPopover extends React.Component {
             </Button>
           </Popover.Element>
           <Popover.Content>
-            <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-              Content
-            </div>
+            <div style={{ padding: 10, fontSize: 12 }}>Content</div>
           </Popover.Content>
         </Popover>
       </div>
