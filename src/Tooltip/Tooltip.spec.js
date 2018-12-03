@@ -1,16 +1,28 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import eventually from 'wix-eventually';
 import tooltipDriverFactory from './Tooltip.driver';
 import Tooltip from './Tooltip';
 import TooltipContent from './TooltipContent';
-import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 import { buttonTestkitFactory, tooltipTestkitFactory } from '../../testkit';
 import { tooltipTestkitFactory as enzymeTooltipTestkitFactory } from '../../testkit/enzyme';
 import { mount } from 'enzyme';
+import {
+  createRendererWithDriver,
+  render,
+  cleanup,
+} from '../../test/utils/react';
 import Button from '../Button';
 
 describe('Tooltip', () => {
-  const createDriver = createDriverFactory(tooltipDriverFactory);
+  const renderComp = createRendererWithDriver(tooltipDriverFactory);
+
+  let driverForCleanup;
+  const createDriver = jsx => {
+    const rendered = renderComp(jsx);
+    driverForCleanup = rendered.driver;
+    return driverForCleanup;
+  };
+
   const _props = {
     showDelay: 5,
     hideDelay: 5,
@@ -18,8 +30,16 @@ describe('Tooltip', () => {
   };
   const children = <div>Here there is a children</div>;
 
-  beforeEach(() => {
-    document.body.innerHTML = '';
+  afterEach(async () => {
+    cleanup();
+    if (driverForCleanup) {
+      await eventually(
+        () =>
+          !driverForCleanup.isShown() || Promise.reject('Tooltip still open'),
+        { timeout: 20, interval: 10 },
+      );
+      driverForCleanup = undefined;
+    }
   });
 
   it('should be hidden by default', () => {
@@ -494,18 +514,16 @@ describe('Tooltip', () => {
 
   describe('testkit', () => {
     const createTooltipTestkitDriver = props => {
-      const div = document.createElement('div');
       const dataHook = 'myDataHook';
       const tooltipProps = { ..._props, ...props };
-      const wrapper = div.appendChild(
-        ReactTestUtils.renderIntoDocument(
-          <div>
-            <Tooltip dataHook={dataHook} {...tooltipProps}>
-              {children}
-            </Tooltip>
-          </div>,
-        ),
+      const { container: wrapper } = render(
+        <div>
+          <Tooltip dataHook={dataHook} {...tooltipProps}>
+            {children}
+          </Tooltip>
+        </div>,
       );
+
       const driver = tooltipTestkitFactory({ wrapper, dataHook });
       return driver;
     };
@@ -567,6 +585,7 @@ describe('Tooltip', () => {
       expect(driver.isShown()).toBeFalsy();
       return resolveIn(30).then(() => {
         expect(driver.isShown()).toBeTruthy();
+        wrapper.unmount();
       });
     });
 
