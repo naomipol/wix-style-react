@@ -61,7 +61,13 @@ const calendarDriverFactory = ({ element, wrapper }) => {
         date.getMonth(),
         date.getDate(),
       );
-      ReactTestUtils.Simulate.click(day);
+      if (day) {
+        ReactTestUtils.Simulate.click(day);
+      } else {
+        throw new Error(
+          `ERROR: CalendarDriver.clickDay() - The given date (${date.toString()}) is not visible`,
+        );
+      }
     },
     clickOnNthDayOfTheMonth: (n = 0) =>
       getNthDayOfTheMonth(n) &&
