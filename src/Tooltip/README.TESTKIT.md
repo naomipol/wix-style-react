@@ -119,3 +119,15 @@ await page.goto(appUrl); //Your application url
 
 expect(await testkit.getTooltipTextContent()).to.equal('my test');
 ```
+
+### Working With Testkits Inside Tooltip's Content
+
+The Tooltip may render the content onto the body. In order to get a testkit of a component in the content,
+you need to set the `wrapper` as the `document.body`.
+
+> Enzyme TL;DR
+
+```js
+const wrapper = mount(<Tooltip content={<Text dataHook="my-text"/>} />);
+const messageBoxDriver = textTestkitFactory({wrapper: document.body, dataHook: 'my-text'});
+```
