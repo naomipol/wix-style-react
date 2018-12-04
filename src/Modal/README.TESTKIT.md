@@ -1,11 +1,9 @@
-# Modal component
+# Modal Testkit
 
-> General modal container.
-
-## Modal TestKit API
-
+## TestKit API
 
 ### Enzyme / ReactTestUtils
+
 | method | arguments | returned value | description |
 |--------|-----------|----------------|-------------|
 | isOpen | - | boolean | true when to module is open |
