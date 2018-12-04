@@ -148,7 +148,7 @@ export default class Calendar extends WixComponent {
     const month = this.state.month || this._getMonth(this.props) || new Date();
     const localeUtils = localeUtilsFactory(locale);
     const { from, to } = value || {};
-    const singleDay = !from && !to;
+    const singleDay = !from && !to && value;
 
     const firstOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
     const lastOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
