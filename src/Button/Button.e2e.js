@@ -1,4 +1,4 @@
-import eyes from 'eyes.it';
+import { eyesItInstance } from '../../test/utils/eyes-it';
 import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 
 import { createStoryUrl } from '../../test/utils/storybook-helpers';
@@ -17,6 +17,8 @@ describe('Button', () => {
   beforeEach(() => {
     return autoExampleDriver.remount();
   });
+
+  const eyes = eyesItInstance({ enableSnapshotAtBrowserGet: false });
 
   eyes.it('Make a screenshoft of all Button examples', () => {
     expect(true).toBeTruthy();
