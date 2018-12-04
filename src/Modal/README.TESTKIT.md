@@ -1,8 +1,11 @@
-# Modal Testkit
+# Modal component
 
-## Enzyme / ReactTestUtils
+> Generic modal container.
 
-### API
+## Modal Testkit API
+
+### Enzyme / ReactTestUtils
+
 | method | arguments | returned value | description |
 |--------|-----------|----------------|-------------|
 | isOpen | - | boolean | true when to module is open |
@@ -12,15 +15,15 @@
 | exists | - | boolean | true if the modal is on the DOM |
 | setProps | json | element | returns a clone of this element with the new props from the json | 
 
-### Usage
+## Usage
 
-#### Cleanup - Waiting For Modal To Close
+### Cleanup - Waiting For Modal To Close
 
 In your tests, you should do proper cleanup after each test.
 The Modal has a `closeTimeoutMS`, so if you leave it open, even if you unmount it, it will stay open for the `closeTimeoutMS` duration.
 Notice that in the following examples we are waiting for the Modal to actually close.
 
-##### Example Enzyme
+### Example Enzyme
 
 > In this example we'll demonstrating how to create a testkit for the `messageBoxFunctionalLayout`.
 
@@ -48,7 +51,7 @@ it('should do something', async ()=> {
 });
 ```
 
-##### Example Plain React (ReactTestUtils)
+### Example Plain React (ReactTestUtils)
 
 ```javascript
 import React from 'react';
@@ -73,7 +76,7 @@ it('should do something', async ()=> {
 });
 ```
 
-#### Working With Modal Inner Components
+### Working With Modal Inner Components
 
 The Modal renders the content onto the body. In order to get a testkit of a component in the content,
 you need to set the `wrapper` as the `document.body`
@@ -85,7 +88,7 @@ const wrapper = mount(<ModalExample/>);
 const messageBoxDriver = messageBoxFunctionalLayoutTestkitFactory({wrapper: document.body, dataHook: 'messageBox'});
 ```
 
-##### Full example
+### Full example
 
 > ModalExample.js
 
