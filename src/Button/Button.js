@@ -60,7 +60,7 @@ class Button extends Component {
       ...rest
     } = this.props;
 
-    const fluid = fullWidth ? 'fluid' : '';
+    const fluid = fullWidth ? 'fullWidth' : '';
     const classNames = cx(className, button(fluid, skin, priority, size));
 
     return (
