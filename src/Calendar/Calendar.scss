@@ -110,7 +110,7 @@ $hoverBoxShadow: 0 0 0 $boxShadowWidth $F00;
 
     &--selected {
       background-color: $B10;
-      @include Text($size: small, $weight: thin, $light: true);
+      @include TextColor($light: true);
     }
 
     &--disabled {
