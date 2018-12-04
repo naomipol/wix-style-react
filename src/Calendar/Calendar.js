@@ -36,22 +36,22 @@ export default class Calendar extends WixComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.value != nextProps.value) {
-      const currentMonth = Calendar.dateToMonth(this.state.month);
+    const nextValue = Calendar.parseValue(nextProps.value);
 
-      if (nextProps.value instanceof Date) {
-        if (currentMonth != Calendar.dateToMonth(nextProps.value)) {
-          this.setState({ month: nextProps.value });
-        }
-      } else {
-        const from = Calendar.dateToMonth(nextProps.value.from);
-        const to = Calendar.dateToMonth(nextProps.value.to);
+    const currentMonth = Calendar.dateToMonth(this.state.month);
 
-        if (from && currentMonth < from) {
-          this.setState({ month: nextProps.value.from });
-        } else if (to && currentMonth > to) {
-          this.setState({ month: nextProps.value.to });
-        }
+    if (nextValue instanceof Date) {
+      if (currentMonth != Calendar.dateToMonth(nextValue)) {
+        this.setState({ month: nextValue });
+      }
+    } else {
+      const from = Calendar.dateToMonth(nextValue.from);
+      const to = Calendar.dateToMonth(nextValue.to);
+
+      if (from && currentMonth < from) {
+        this.setState({ month: nextValue.from });
+      } else if (to && currentMonth > to) {
+        this.setState({ month: nextValue.to });
       }
     }
   }
@@ -110,20 +110,26 @@ export default class Calendar extends WixComponent {
     }
   };
 
-  _getMonth = props => {
-    const { value } = props;
-    const optionalParse = x => (typeof x === 'string' ? parse(x) : x);
+  static optionalParse = x => (typeof x === 'string' ? parse(x) : x);
 
-    const { from, to } = value || {};
-    if (
-      !optionalParse(from) &&
-      !optionalParse(to) &&
-      !(optionalParse(value) instanceof Date)
-    ) {
-      return new Date();
+  static parseValue = value => {
+    if (typeof value === 'string') {
+      return parse(value);
+    } else if (value instanceof Date) {
+      return value;
     } else {
-      return optionalParse(from || to || value);
+      return {
+        from: Calendar.optionalParse(value.from),
+        to: Calendar.optionalParse(value.to),
+      };
     }
+  };
+
+  _getMonth = props => {
+    const value = Calendar.parseValue(props.value);
+    const { from, to } = value || {};
+
+    return from || to || (value instanceof Date ? value : new Date());
   };
 
   _createDayPickerProps = () => {
@@ -133,16 +139,16 @@ export default class Calendar extends WixComponent {
       showYearDropdown,
       filterDate,
       excludePastDates,
-      value: propsValue,
       rtl,
       twoMonths,
     } = this.props;
 
+    const value = Calendar.parseValue(this.props.value);
+
     const month = this.state.month || this._getMonth(this.props) || new Date();
     const localeUtils = localeUtilsFactory(locale);
-    const from = propsValue && propsValue.from && parse(propsValue.from);
-    const to = propsValue && propsValue.to && parse(propsValue.to);
-    const singleDay = !from && !to && parse(propsValue);
+    const { from, to } = value || {};
+    const singleDay = !from && !to;
 
     const firstOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
     const lastOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
@@ -151,18 +157,17 @@ export default class Calendar extends WixComponent {
     if (from && !to) {
       const date = new Date(from);
       date.setDate(from.getDate() - 1);
-      selectedDaysProp = { after: parse(date) };
+      selectedDaysProp = { after: date };
     } else if (!from && to) {
       const date = new Date(to);
       date.setDate(to.getDate() + 1);
-      selectedDaysProp = { before: parse(date) };
+      selectedDaysProp = { before: date };
     } else if (from && to) {
-      selectedDaysProp = { from: parse(from), to: parse(to) };
+      selectedDaysProp = { from: from, to: to };
     } else {
       selectedDaysProp = singleDay;
     }
-    //console.error(selectedDaysProp);
-    //throw Error(selectedDaysProp);
+
     const captionElement = (
       <DatePickerHead
         {...{
