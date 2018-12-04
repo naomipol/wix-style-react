@@ -113,6 +113,9 @@ export default class Calendar extends WixComponent {
   static optionalParse = x => (typeof x === 'string' ? parse(x) : x);
 
   static parseValue = value => {
+    if (!value) {
+      return new Date();
+    }
     if (typeof value === 'string') {
       return parse(value);
     } else if (value instanceof Date) {
