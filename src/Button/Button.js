@@ -60,16 +60,11 @@ class Button extends Component {
       ...rest
     } = this.props;
 
-    const styles = fullWidth ? { width: '100%' } : {};
-    const classNames = cx(className, button(skin, priority, size));
+    const fluid = fullWidth ? 'fluid' : '';
+    const classNames = cx(className, button(fluid, skin, priority, size));
 
     return (
-      <ButtonNext
-        {...rest}
-        style={styles}
-        data-hook={dataHook}
-        className={classNames}
-      >
+      <ButtonNext {...rest} data-hook={dataHook} className={classNames}>
         {children}
       </ButtonNext>
     );
