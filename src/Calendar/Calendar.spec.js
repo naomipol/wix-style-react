@@ -7,6 +7,8 @@ import { createRendererWithDriver, cleanup } from '../../test/utils/react';
 const createDriver = createDriverFactory(calendarDriverFactory);
 
 describe('Calendar', () => {
+  afterEach(() => cleanup());
+
   describe('rendering the Calendar', () => {
     const monthNames = 'January February March April May June July August September October November December'.split(
       ' ',
