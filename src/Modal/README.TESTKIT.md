@@ -2,7 +2,7 @@
 
 > Generic modal container.
 
-## Modal Testkit API
+## Modal TestKit API
 
 ### Enzyme / ReactTestUtils
 
