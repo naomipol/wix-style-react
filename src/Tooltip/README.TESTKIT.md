@@ -88,7 +88,7 @@ We recommend using `react-testing-library`.
 
   const dataHook = 'myDataHook';
   const { container : wrapper } = render(
-      <Tooltip dataHook={dataHook} {..._props}>{children}</Tooltip>
+      <Tooltip dataHook={dataHook}>Hello</Tooltip>
     )
   );
   const testkit = tooltipTestkitFactory({wrapper, dataHook});
@@ -130,4 +130,44 @@ you need to set the `wrapper` as the `document.body`.
 ```js
 const wrapper = mount(<Tooltip content={<Text dataHook="my-text"/>} />);
 const messageBoxDriver = textTestkitFactory({wrapper: document.body, dataHook: 'my-text'});
+```
+
+### Full example (Enzyme)
+
+> TooltipExample.spec.js
+
+```js
+import 'jsdom-global/register';
+import React from 'react';
+import {expect} from 'chai';
+import {mount} from 'enzyme';
+import eventually from 'wix-eventually';
+import {tooltipTestkitFactory, textTestkitFactory} from 'wix-style-react/dist/testkit/enzyme';
+
+describe('Tooltip Example', () => {
+  it('renders the a page with tooltip and a specific text', async () => {
+    // Render
+    const wrapper = mount(
+      <div>
+        <Tooltip dataHook="my-tooltip">
+          <Text dataHook="my-text">Hello</Text>
+        </Tooltip>
+      </div>
+    );
+
+    // create testkits
+    const tooltipTestkit = tooltipTestkitFactory({wrapper, dataHook: 'my-tooltip'});
+
+    //open the tooltip
+    tooltipDriver.mouseEnter();
+    expect(modalDriver.isShown()).to.equal(true);
+
+    // use textTestkit
+    const textTestkit = textTestkitFactory({wrapper: document.body, dataHook: 'my-text'});
+    expect(textTestkit.getText).to.equal('Hello');
+
+    // Cleanup
+    wrapper.detach();
+  });
+});
 ```
