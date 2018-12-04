@@ -55,7 +55,7 @@ expect(testkit.exists()).toBeTruthy();
 
 ```javascript
 import puppeteer from 'puppeteer';
-import {buttonTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
+import { buttonTestkitFactory } from 'wix-style-react/dist/testkit/puppeteer';
 
 //puppeteer setup
 const browser = await puppeteer.launch();
@@ -73,15 +73,12 @@ expect(await testkit.exists()).toBeTruthy();
 > Element should be rendered with a data-hook into the DOM `<Button dataHook="myDataHook" />`
 
 ```javascript
-import {
-  buttonTestkitFactory,
-  waitForVisibilityOf
-} from "wix-style-react/dist/testkit/protractor";
+import { buttonTestkitFactory } from "wix-style-react/dist/testkit/protractor";
 
 //Create an element testkit via the data-hook attribute
 const testkit = buttonTestkitFactory({ dataHook: "myDataHook" });
 
-browser.get('/page-where-button-appears'); //Your application url
+await browser.get('/page-where-button-appears'); //Your application url
 
-expect(testkit.exists()).toBeTruthy();
+expect(await testkit.exists()).toBeTruthy();
 ```
