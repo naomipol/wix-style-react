@@ -11,7 +11,7 @@ import { TESTS_PREFIX } from '../../../stories/storiesHierarchy';
 const NO_DESCRIPTION = '';
 
 describe('Backoffice Button', () => {
-  const storyUrl = getStoryUrl('5. Buttons', '5.1 Standard');
+  const storyUrl = getStoryUrl('Deprecated', 'Button');
   const driver = buttonTestkitFactory({ dataHook: 'storybook-button' });
 
   // Specific as opposed to 'Generic' tests like the Focusable tests.
