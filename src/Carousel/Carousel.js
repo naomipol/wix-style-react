@@ -1,70 +1,81 @@
-import classNames from 'classnames'
-import WixComponent from '../BaseComponents/WixComponent'
-import React from 'react'
-import styles from './Carousel.scss'
-import ChevronLeftLarge from '../new-icons/ChevronLeftLarge'
-import ChevronRightLarge from '../new-icons/ChevronRightLarge'
-import IconButton from '../IconButton/IconButton'
-import Loader from '../Loader/Loader'
-import cloneDeep from 'clone-deep'
+import classNames from 'classnames';
+import WixComponent from '../BaseComponents/WixComponent';
+import React from 'react';
+import styles from './Carousel.scss';
+import ChevronLeftLarge from '../new-icons/ChevronLeftLarge';
+import ChevronRightLarge from '../new-icons/ChevronRightLarge';
+import IconButton from '../IconButton/IconButton';
+import Loader from '../Loader/Loader';
+import cloneDeep from 'clone-deep';
 
 const duplicateIfTwoImages = images =>
-  images.length === 2 ? images.concat(cloneDeep(images)) : images
+  images.length === 2 ? images.concat(cloneDeep(images)) : images;
+
 class Carousel extends WixComponent {
   constructor(props) {
-    super(props)
-    const images = this.props.images || []
+    super(props);
+    const images = this.props.images || [];
     this.state = {
       activeIndex: 0,
       images: duplicateIfTwoImages(images),
-      loadedImageCount: 0
+      loadedImageCount: 0,
+    };
+  }
+
+  _isLastImage() {
+    return this.state.activeIndex === this.props.images.length - 1;
+  }
+
+  _prev() {
+    if (this.state.activeIndex === 0 && !this.props.infinite) {
+      return;
     }
-  }
-
-  prev() {
     this.setState({
-      activeIndex: this.getPrevIndex()
-    })
+      activeIndex: this._getPrevIndex(),
+    });
   }
 
-  next() {
+  _next() {
+    if (this._isLastImage() && !this.props.infinite) {
+      return;
+    }
     this.setState({
-      activeIndex: this.getNextIndex()
-    })
+      activeIndex: this._getNextIndex(),
+    });
   }
 
-  getNextIndex() {
+  _getNextIndex() {
     return this.state.activeIndex === this.state.images.length - 1
       ? 0
-      : this.state.activeIndex + 1
+      : this.state.activeIndex + 1;
   }
 
-  getPrevIndex() {
+  _getPrevIndex() {
     return this.state.activeIndex === 0
       ? this.state.images.length - 1
-      : this.state.activeIndex - 1
+      : this.state.activeIndex - 1;
   }
 
-  onImageLoad() {
+  _onImageLoad() {
     this.setState(state => {
-      const loadedImageCount = state.loadedImageCount + 1
+      const loadedImageCount = state.loadedImageCount + 1;
       return {
-        loadedImageCount
-      }
-    })
+        loadedImageCount,
+      };
+    });
   }
 
-  isLoading() {
-    return this.state.loadedImageCount < this.state.images.length
+  _isLoading() {
+    return this.state.loadedImageCount < this.state.images.length;
   }
 
-  isDotActive(index) {
-    const activeIndex = this.state.activeIndex
-    const originalImageCount = this.props.images.length
+  _isDotActive(index) {
+    const activeIndex = this.state.activeIndex;
+    const originalImageCount = this.props.images.length;
     if (activeIndex > originalImageCount - 1) {
-      return index === activeIndex - originalImageCount
+      return index === activeIndex - originalImageCount;
     }
-    return index === activeIndex
+    return index === activeIndex;
   }
 
   render() {
@@ -75,7 +86,7 @@ class Carousel extends WixComponent {
             <IconButton
               dataHook="prev-button"
               priority="secondary"
-              onClick={() => this.prev()}
+              onClick={() => this._prev()}
             >
               <ChevronLeftLarge />
             </IconButton>
@@ -83,7 +94,7 @@ class Carousel extends WixComponent {
           <div
             className={classNames([
               styles.imageContainer,
-              { [styles.loading]: this.isLoading() }
+              { [styles.loading]: this._isLoading() },
             ])}
           >
             {this.state.images.map((image, currentIndex) => {
@@ -93,20 +104,20 @@ class Carousel extends WixComponent {
                   style={{ transition: this.props.transition }}
                   className={classNames(styles.image, {
                     [styles.active]: currentIndex === this.state.activeIndex,
-                    [styles.prev]: currentIndex === this.getPrevIndex(),
-                    [styles.next]: currentIndex === this.getNextIndex()
+                    [styles.prev]: currentIndex === this._getPrevIndex(),
+                    [styles.next]: currentIndex === this._getNextIndex(),
                   })}
                 >
                   <img
                     data-hook="carousel-img"
                     src={image.src}
-                    onLoad={() => this.onImageLoad()}
+                    onLoad={() => this._onImageLoad()}
                   />
                 </div>
-              )
+              );
             })}
           </div>
-          {this.isLoading() ? (
+          {this._isLoading() ? (
             <div className={styles.loader}>
               <Loader dataHook="loader" size="small" />
             </div>
@@ -115,7 +126,7 @@ class Carousel extends WixComponent {
             <IconButton
               dataHook="next-button"
               priority="secondary"
-              onClick={() => this.next()}
+              onClick={() => this._next()}
             >
               <ChevronRightLarge />
             </IconButton>
@@ -128,19 +139,23 @@ class Carousel extends WixComponent {
                 <div
                   key={currentIndex}
                   className={classNames(styles.dot, {
-                    [styles.active]: this.isDotActive(currentIndex)
+                    [styles.active]: this._isDotActive(currentIndex),
                   })}
                 />
-              )
+              );
             })}
         </div>
       </div>
-    )
+    );
   }
 }
 
-Carousel.propTypes = WixComponent.propTypes
-Carousel.defaultProps = WixComponent.defaultProps
-Carousel.displayName = 'Carousel'
+Carousel.defaultProps = Object.assign(
+  {
+    infinite: true,
+  },
+  WixComponent.defaultProps,
+);
+Carousel.displayName = 'Carousel';
 
-export default Carousel
+export default Carousel;
