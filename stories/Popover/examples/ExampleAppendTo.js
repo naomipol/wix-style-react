@@ -29,7 +29,6 @@ class PopoverWithState extends React.Component {
     return (
       <Popover
         showArrow
-        dataHook="story-popover-append-to"
         shown={shown}
         ${createPropsArray(props).join('\n        ')}
       >
@@ -86,7 +85,7 @@ const Section = ({ appendToProp, description, children }) => (
 );
 
 export default () => (
-  <div style={{ maxWidth: 1254 }}>
+  <div style={{ maxWidth: 1254 }} dataHook="story-popover-append-to">
     <Section
       appendToProp="window"
       description="If you inspect the content, you'll see it is attached to a new `<div/>` under the body."
