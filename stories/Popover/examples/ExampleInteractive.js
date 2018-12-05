@@ -34,7 +34,7 @@ class ClickablePopover extends React.Component {
         placement="right"
         shown={shown}
         onClickOutside={() => this.close()}
-        ${createPropsArray(props).join('        \n')}
+        ${createPropsArray(props).join('\n        ')}
       >
         <Popover.Element>
           <Button onClick={() => this.toggle()}>Click me to toggle</Button>
@@ -78,7 +78,7 @@ class HoverablePopover extends React.Component {
         shown={shown}
         onMouseEnter={() => this.open()}
         onMouseLeave={() => this.close()}
-        ${createPropsArray(props).join('        \n')}
+        ${createPropsArray(props).join('\n        ')}
       >
         <Popover.Element>
           <Button>Hover me to open</Button>

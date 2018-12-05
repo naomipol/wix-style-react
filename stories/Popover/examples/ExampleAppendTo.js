@@ -9,13 +9,13 @@ import LiveCodeExample, {
   createPropsArray,
 } from '../../utils/Components/LiveCodeExample';
 
-const createPopperWithStateExample = props => `
+const createPopperWithStateExample = ({ shown = true, ...props }) => `
 class PopoverWithState extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      shown: true
+      shown: ${shown}
     };
   }
 
@@ -29,10 +29,9 @@ class PopoverWithState extends React.Component {
     return (
       <Popover
         showArrow
-        placement="right"
         dataHook="story-popover-append-to"
         shown={shown}
-        ${createPropsArray(props).join('        \n')}
+        ${createPropsArray(props).join('\n        ')}
       >
         <Popover.Element>
           <Button onClick={() => this.toggle()}>Click me to toggle</Button>
@@ -63,7 +62,10 @@ const ScrollableContent = ({ children }) => (
   </div>
 );
 
-${createPopperWithStateExample({ appendTo: 'scrollParent' })}
+${createPopperWithStateExample({
+  appendTo: 'scrollParent',
+  placement: 'right',
+})}
 
 render(
   <ScrollableContent>
@@ -87,11 +89,32 @@ export default () => (
   <div style={{ maxWidth: 1254 }}>
     <Section
       appendToProp="window"
-      description="If you inspect the content, you'll see it is attached to a new div under the body."
+      description="If you inspect the content, you'll see it is attached to a new `<div/>` under the body."
     >
       <LiveCodeExample
         compact
-        initialCode={createPopperWithStateExample({ appendTo: 'window' })}
+        initialCode={createPopperWithStateExample({
+          appendTo: 'window',
+          placement: 'right',
+        })}
+      />
+    </Section>
+
+    <Section
+      appendToProp="viewport"
+      description={`
+This is similar to \`window\` as it also appends the content to a new \`<div/>\` under the body, but also set its boundry to the viewport.
+
+_The Popover in the example is not shown by default_
+      `}
+    >
+      <LiveCodeExample
+        compact
+        initialCode={createPopperWithStateExample({
+          shown: false,
+          appendTo: 'viewport',
+          placement: 'bottom',
+        })}
       />
     </Section>
 
@@ -101,7 +124,10 @@ export default () => (
     >
       <LiveCodeExample
         compact
-        initialCode={createPopperWithStateExample({ appendTo: 'parent' })}
+        initialCode={createPopperWithStateExample({
+          appendTo: 'parent',
+          placement: 'right',
+        })}
       />
     </Section>
 

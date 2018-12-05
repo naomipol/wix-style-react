@@ -10,7 +10,7 @@ import * as iconsScope from 'wix-ui-icons-common';
  *
  *  const myComponentString = props => `
  *    <div
- *      ${createPropsArray(props).join('    \n')}
+ *      ${createPropsArray(props).join('\n    ')}
  *    />
  *  `;
  *
