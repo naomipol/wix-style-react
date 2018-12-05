@@ -9,9 +9,6 @@ import ExamplesPrefix from '!raw-loader!./ExamplesPrefix';
 import ExamplesSuffix from '!raw-loader!./ExamplesSuffix';
 import ExamplesLoading from '!raw-loader!./ExamplesLoading';
 
-import styles from './formatting.scss';
-import classNames from 'classnames';
-
 const controlledWidth = {
   height: 'auto',
   width: '100%',
