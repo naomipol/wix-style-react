@@ -29,7 +29,7 @@ WHITE;
 
 .root[data-hook*="popover-portal"] {
   /* This will cause the container's height to stay the same */
-  display: flex;
+  display: block;
 }
 
 

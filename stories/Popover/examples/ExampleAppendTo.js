@@ -12,6 +12,8 @@ import LiveCodeExample, {
 const createPopperWithStateExample = props => `
 class PopoverWithState extends React.Component {
   constructor(props) {
+    super(props);
+
     this.state = {
       shown: true
     };
@@ -70,52 +72,48 @@ render(
 );
 `;
 
-const Section = ({ appendToProp, children }) => (
-  <Cell span={5}>
-    <Markdown source={`#### \`appendTo="${appendToProp}"\``} />
-    {children}
-  </Cell>
+const Section = ({ appendToProp, description, children }) => (
+  <Layout>
+    <Cell span={6}>
+      <Markdown source={`#### \`appendTo="${appendToProp}"\``} />
+      <Markdown source={description} />
+    </Cell>
+
+    <Cell span={6}>{children}</Cell>
+  </Layout>
 );
 
 export default () => (
   <div style={{ maxWidth: 1254 }}>
-    <Layout>
-      <Section appendToProp="window">
-        <Text>
-          If you inspect the content, you'll see it is attached to a new div
-          under the body.
-        </Text>
+    <Section
+      appendToProp="window"
+      description="If you inspect the content, you'll see it is attached to a new div under the body."
+    >
+      <LiveCodeExample
+        compact
+        initialCode={createPopperWithStateExample({ appendTo: 'window' })}
+      />
+    </Section>
 
-        <LiveCodeExample
-          compact
-          initialCode={createPopperWithStateExample({ appendTo: 'window' })}
-        />
-      </Section>
+    <Section
+      appendToProp="parent"
+      description="If you inspect the content, you'll see it is attached to a new div next to the target element (the Button)."
+    >
+      <LiveCodeExample
+        compact
+        initialCode={createPopperWithStateExample({ appendTo: 'parent' })}
+      />
+    </Section>
 
-      <Section appendToProp="parent">
-        <Text>
-          If you inspect the content, you'll see it is attached to a new div
-          next to the target element (the Button).
-        </Text>
-
-        <LiveCodeExample
-          compact
-          initialCode={createPopperWithStateExample({ appendTo: 'parent' })}
-        />
-      </Section>
-
-      <Section appendToProp="scrollParent">
-        <Text>
-          If you inspect the content, you'll see it is attached to a new div
-          under the list container.
-        </Text>
-
-        <LiveCodeExample
-          compact
-          autoRender={false}
-          initialCode={createScrolParentExample()}
-        />
-      </Section>
-    </Layout>
+    <Section
+      appendToProp="scrollParent"
+      description="If you inspect the content, you'll see it is attached to a new div under the list container."
+    >
+      <LiveCodeExample
+        compact
+        autoRender={false}
+        initialCode={createScrolParentExample()}
+      />
+    </Section>
   </div>
 );

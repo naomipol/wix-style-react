@@ -49,7 +49,7 @@ export default {
   componentProps: (setProps, getProps) => ({
     dataHook: storySettings.dataHook,
 
-    children: children[0].value,
+    children: children[1].value,
     showArrow: true,
     timeout: 150,
     shown: false,

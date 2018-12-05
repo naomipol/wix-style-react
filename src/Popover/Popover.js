@@ -63,20 +63,21 @@ class Popover extends WixComponent {
     this.props.onClickOutside && this.props.onClickOutside(e);
   }
 
+  // WixComponent is mainly used for the `onClickOutside` props, but is also
+  // extending React.PureComponent. The <Popover/> component can't be a
+  // PureComponent as it needs to update as frequently as possible to utilize
+  // popper's positioning mechanism.
+  shouldComponentUpdate() {
+    return true;
+  }
+
   render() {
-    const { dataHook, theme, bounce, ...rest } = this.props;
+    const { dataHook, ...rest } = this.props;
 
     return (
       <CorePopover
         {...rest}
-        {...style(
-          'root',
-          {
-            bounce,
-            theme,
-          },
-          this.props,
-        )}
+        {...style('root', {}, this.props)}
       />
     );
   }

@@ -10,6 +10,8 @@ import LiveCodeExample, {
 const createClickablePopoverExample = props => `
 class ClickablePopover extends React.Component {
   constructor(props) {
+    super(props);
+
     this.state = {
       shown: false
     };
@@ -51,6 +53,8 @@ class ClickablePopover extends React.Component {
 const createHoverablePopoverExamle = props => `
 class HoverablePopover extends React.Component {
   constructor(props) {
+    super(props);
+
     this.state = {
       shown: false
     };
