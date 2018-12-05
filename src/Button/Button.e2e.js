@@ -16,8 +16,9 @@ describe('Button', () => {
     await browser.executeScript(disableCSSAnimation);
   });
 
-  afterEach(() => {
-    return autoExampleDriver.remount();
+  afterEach(async () => {
+    await autoExampleDriver.remount();
+    await autoExampleDriver.reset();
   });
 
   const eyes = eyesItInstance({ enableSnapshotAtBrowserGet: false });
