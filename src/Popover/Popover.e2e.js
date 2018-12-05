@@ -1,4 +1,5 @@
 import eyes from 'eyes.it';
+import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 
 import { popoverTestkitFactory } from '../../testkit/protractor';
 import {
@@ -36,6 +37,15 @@ describe('Popover', () => {
 
   beforeAll(async () => {
     await browser.get(storyUrl);
+  });
+
+  beforeEach(async () => {
+    await autoExampleDriver.reset();
+  });
+
+  eyes.it('should render with dark theme', async () => {
+    await autoExampleDriver.setProps({ theme: 'dark' });
+    await createDriver();
   });
 
   describe('examples', () => {

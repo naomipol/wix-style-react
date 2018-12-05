@@ -5,9 +5,7 @@
 
 :import {
   -st-from: "wix-ui-backoffice/src/colors.st.css";
-  -st-named: 
-  D10,
-WHITE;
+  -st-named: D10, WHITE;
 }
 
 :import {
@@ -21,9 +19,7 @@ WHITE;
 }
 
 .root {
-  -st-states: theme(string),
-    bounce;
-
+  -st-states: theme(string);
   -st-extends: Popover;
 }
 
@@ -33,7 +29,7 @@ WHITE;
 }
 
 
-/* Default styles with dark theme */
+/* Default styles with light theme */
 .root::popoverContent {
   border: none;
 
@@ -46,6 +42,7 @@ WHITE;
   font-size: 14px;
   line-height: 18px;
 
+  /* Light theme specific stuff */
   color: value(D10);
   background: value(WHITE);
 }
@@ -66,12 +63,34 @@ WHITE;
   border-bottom-color: value(WHITE);
 }
 
+/* Dark theme */
+.root:theme(dark)::popoverContent {
+  color: value(WHITE);
+  background: value(D10);
+}
+
+.root:theme(dark)::popover[data-placement*="right"]::arrow {
+  border-right-color: value(D10);
+}
+
+.root:theme(dark)::popover[data-placement*="left"]::arrow {
+  border-left-color: value(D10);
+}
+
+.root:theme(dark)::popover[data-placement*="top"]::arrow {
+  border-top-color: value(D10);
+}
+
+.root:theme(dark)::popover[data-placement*="bottom"]::arrow {
+  border-bottom-color: value(D10);
+}
+
 /*
  * Entrance and exit animation
  */
 
 .root::popoverAnimation-enter {
-  opacity: .85;
+  opacity: 0;
 }
 
 .root::popoverAnimation-enter-active {

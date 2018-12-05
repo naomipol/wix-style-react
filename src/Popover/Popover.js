@@ -18,6 +18,8 @@ class Popover extends WixComponent {
 
     /** Callback to be called when the user perform a click outside of the component */
     onClickOutside: PropTypes.func,
+    /** The theme of the popover */
+    theme: PropTypes.oneOf(['dark', 'light']),
 
     children: (props, propName) => {
       const childrenArr = React.Children.toArray(props[propName]);
@@ -72,12 +74,14 @@ class Popover extends WixComponent {
   }
 
   render() {
-    const { dataHook, ...rest } = this.props;
+    const { dataHook, theme, ...rest } = this.props;
 
     return (
       <CorePopover
         {...rest}
-        {...style('root', {}, this.props)}
+        {...style('root', {
+          theme
+        }, this.props)}
       />
     );
   }

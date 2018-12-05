@@ -4,6 +4,10 @@ import Markdown from 'wix-storybook-utils/Markdown';
 import { storySettings, placements } from './storySettings';
 
 import Popover from '../../src/Popover';
+import Text from '../../src/Text';
+import Button from '../../src/Button';
+import Dropdown from '../../src/Dropdown';
+import FormField from '../../src/FormField';
 
 import ExampleAppendTo from './examples/ExampleAppendTo';
 import ExampleInteractive from './examples/ExampleInteractive';
@@ -37,6 +41,39 @@ const children = [
       </Popover.Content>,
     ],
   },
+  {
+    label: 'A button',
+    value: [
+      <Popover.Element key="1">This is the Popover.Element</Popover.Element>,
+      <Popover.Content key="2">
+        <div style={{ padding: '12px 24px', textAlign: 'center', width: 250 }}>
+          <Button>I am a useless button!</Button>
+        </div>
+      </Popover.Content>,
+    ],
+  },
+  {
+    label: 'A Dropdown',
+    value: [
+      <Popover.Element key="1">This is the Popover.Element</Popover.Element>,
+      <Popover.Content key="2">
+        <div style={{ padding: '12px 24px', textAlign: 'center' }}>
+          <FormField label="This is the FormField label">
+            <Dropdown
+              options={[
+                { id: 0, value: 'Option 1' },
+                { id: 1, value: 'Option 2' },
+                { value: '-' },
+                { id: 2, value: 'Option 3' },
+                { id: 3, value: 'Option 4' },
+              ]}
+              placeholder="This is a placeholder"
+            />
+          </FormField>
+        </div>
+      </Popover.Content>,
+    ],
+  },
 ];
 
 export default {
@@ -54,7 +91,7 @@ export default {
     timeout: 150,
     shown: false,
     placement: 'top',
-    appendTo: 'parent',
+    appendTo: 'window',
 
     onClick: () => setProps({ shown: !getProps().shown }),
   }),

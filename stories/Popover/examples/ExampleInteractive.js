@@ -41,7 +41,9 @@ class ClickablePopover extends React.Component {
         </Popover.Element>
         <Popover.Content>
           <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-            <Button height="x-small">Click me</Button>
+            <Text size="small" skin="standard" weight="normal">
+              Try to click me now!
+            </Text>
           </div>
         </Popover.Content>
       </Popover>
@@ -85,7 +87,9 @@ class HoverablePopover extends React.Component {
         </Popover.Element>
         <Popover.Content>
           <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-            Now hover me!
+            <Text size="small" skin="standard" weight="normal">
+              Now hover me!
+            </Text>
           </div>
         </Popover.Content>
       </Popover>

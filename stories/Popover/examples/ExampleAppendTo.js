@@ -37,7 +37,9 @@ class PopoverWithState extends React.Component {
         </Popover.Element>
         <Popover.Content>
           <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-            <Text>I am the content!</Text>
+            <Text size="small" skin="standard" weight="normal">
+              I am the content!
+            </Text>
           </div>
         </Popover.Content>
       </Popover>
