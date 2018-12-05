@@ -14,6 +14,7 @@ export default {
   examples: (
     <div style={{ width: '500px', height: '300px' }}>
       <Carousel
+        autoplay
         images={[
           {
             src:

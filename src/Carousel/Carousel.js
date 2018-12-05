@@ -8,6 +8,9 @@ import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import cloneDeep from 'clone-deep';
 
+const autoplayDuration = '2000ms'
+const regularDuration = '600ms'
+
 // because lodash throttle is not compatible with jest timeout mocks
 function throttle(callback, time) {
   let pause;
@@ -36,6 +39,26 @@ class Carousel extends WixComponent {
       loadedImageCount: 0,
     };
     this._slide = throttle(this._slide.bind(this), 600);
+  }
+
+  componentDidMount() {
+    if (this.props.autoplay) {
+      this._autoplay()
+    }
+  }
+
+  _autoplay() {
+    const intervalToken = setInterval(() => this._slide(this._getNextIndex()), 4000)
+    this._haltAutoplay = () => clearInterval(intervalToken)
+  }
+
+  _onMouseOver() {
+    console.log('\n\n\n\n\n mouse enter')
+    this.props.autoplay && this._haltAutoplay()
+  }
+
+  _onMouseOut() {
+    this.props.autoplay && this._autoplay()
   }
 
   _isLastImage() {
@@ -110,15 +133,19 @@ class Carousel extends WixComponent {
             </IconButton>
           </div>
           <div
+            data-hook="image-container"
             className={classNames([
               styles.imageContainer,
               { [styles.loading]: this._isLoading() },
             ])}
+            onMouseOver={() => this._onMouseOver()}
+            onMouseOut={() => this._onMouseOut()}
           >
             {this.state.images.map((image, currentIndex) => {
               return (
                 <div
                   key={currentIndex}
+                  style={{transitionDuration: this.props.autoplay ? autoplayDuration : regularDuration}}
                   className={classNames(styles.image, {
                     [styles.active]: currentIndex === this.state.activeIndex,
                     [styles.prev]: currentIndex === this._getPrevIndex(),
