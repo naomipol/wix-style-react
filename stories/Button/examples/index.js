@@ -9,6 +9,9 @@ import ExamplesPrefix from '!raw-loader!./ExamplesPrefix';
 import ExamplesSuffix from '!raw-loader!./ExamplesSuffix';
 import ExamplesLoading from '!raw-loader!./ExamplesLoading';
 
+import styles from './formatting.scss';
+import classNames from 'classnames';
+
 const controlledWidth = {
   height: 'auto',
   width: '100%',
@@ -23,7 +26,9 @@ const halfColumn = {
   lineHeight: '1.6',
 };
 
-const Container = ({ children }) => <div style={controlledWidth}>{children}</div>; //eslint-disable-line
+const Container = ({ children }) => (
+  <div style={controlledWidth}>{children}</div>
+); //eslint-disable-line
 
 const Box = ({ children }) => <div style={halfColumn}>{children}</div>; //eslint-disable-line
 
