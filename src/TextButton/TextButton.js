@@ -35,6 +35,7 @@ class TextButton extends Component {
     underline: 'none',
     weight: 'thin',
     size: 'medium',
+    disabled: false,
   };
 
   render() {

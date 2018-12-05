@@ -39,8 +39,8 @@ class SectionHelper extends WixComponent {
           >
             <CloseButton
               dataHook="sectionhelper-close-btn"
-              size="large"
-              theme="close-dark"
+              size="medium"
+              skin="dark"
               onClick={this.props.onClose}
             />
           </div>

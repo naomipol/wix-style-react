@@ -56,8 +56,8 @@ class Tag extends WixComponent {
     if (removable && !disabled) {
       return (
         <CloseButton
-          size={size === 'large' ? 'large' : 'small'}
-          theme="close-dark"
+          size={size === 'large' ? 'medium' : 'small'}
+          skin="dark"
           dataHook={dataHooks.removeButton}
           className={styles.removeButton}
           onClick={this._handleRemoveClick}

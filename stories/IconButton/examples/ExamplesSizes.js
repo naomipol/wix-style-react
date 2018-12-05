@@ -6,4 +6,4 @@
   <IconButton>
     <Adjust />
   </IconButton>
-</div>;
+</div>

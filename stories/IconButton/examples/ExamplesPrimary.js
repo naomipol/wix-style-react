@@ -9,4 +9,4 @@
   <IconButton skin="light">
     <Adjust />
   </IconButton>
-</div>;
+</div>

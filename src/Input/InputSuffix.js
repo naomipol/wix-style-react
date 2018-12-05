@@ -112,9 +112,8 @@ const InputSuffix = ({
         <div className={styles.clearButton}>
           <CloseButton
             dataHook="input-clear-button"
-            size="large"
+            size="medium"
             onClick={onClear}
-            theme="close-standard"
           />
         </div>
       ),

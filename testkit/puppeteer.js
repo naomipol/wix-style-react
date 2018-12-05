@@ -65,3 +65,9 @@ import { iconButtonDriverFactory } from '../src/IconButton/IconButton.driver';
 export const iconButtonTestkitFactory = puppeteerUniTestkitFactoryCreator(
   iconButtonDriverFactory,
 );
+
+import { closeButtonDriverFactory } from '../src/CloseButton/CloseButton.driver';
+
+export const closeButtonTestkitFactory = puppeteerUniTestkitFactoryCreator(
+  closeButtonDriverFactory,
+);

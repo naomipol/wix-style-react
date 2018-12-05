@@ -467,34 +467,4 @@ describe('Table', () => {
       expect(driver.hasInfoIcon(1)).toBe(true);
     });
   });
-
-  describe('testkit', () => {
-    it('should exist', () => {
-      const div = document.createElement('div');
-      const dataHook = 'myDataHook';
-      const wrapper = div.appendChild(
-        ReactTestUtils.renderIntoDocument(
-          <div>
-            <DataTable dataHook={dataHook} {...defaultProps} />
-          </div>,
-        ),
-      );
-      const dataTableTestkit = dataTableTestkitFactory({ wrapper, dataHook });
-      expect(dataTableTestkit.hasChildWithId(defaultProps.id)).toBeTruthy();
-    });
-  });
-
-  describe('enzyme testkit', () => {
-    it('should exist', () => {
-      const dataHook = 'myDataHook';
-      const wrapper = mount(
-        <DataTable {...defaultProps} dataHook={dataHook} />,
-      );
-      const dataTableTestkit = enzymeDataTableTestkitFactory({
-        wrapper,
-        dataHook,
-      });
-      expect(dataTableTestkit.hasChildWithId(defaultProps.id)).toBeTruthy();
-    });
-  });
 });

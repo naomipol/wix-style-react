@@ -37,6 +37,7 @@ const dataTableDriverFactory = ({ element, wrapper, component }) => {
     );
 
   return {
+    exists: () => !!element,
     getRow,
     getRowsCount,
     getRowsWithClassCount: className => {

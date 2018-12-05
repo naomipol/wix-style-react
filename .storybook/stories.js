@@ -62,10 +62,7 @@ import '../stories/ButtonLayout.story.js'; // 5.0 ButtonLayout
 import '../stories/Button/standard.story.js'; // 5.1 Standard
 import '../stories/IconButton/index.story'; // 5.2 Icon Button
 import '../stories/TextButton/index.story'; // 5.3 Text Button
-import '../stories/Button/error.story.js'; // 5.4 Error
-import '../stories/Button/premium.story.js'; // 5.5 Premium
-import '../stories/Button/transparent.story.js'; // 5.6 Transparent
-import '../stories/Button/close.story.js'; // 5.7 Close
+import '../stories/CloseButton/index.story.js' // 5.4 Close Button
 import '../stories/TextLink/index.story.js'; // 5.8 Text Link
 
 // 6. Navigation

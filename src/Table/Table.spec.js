@@ -2,20 +2,14 @@ import TableDriverFactory from './Table.driver';
 import React from 'react';
 import { Table } from './Table';
 import DataTable from '../DataTable';
-import ReactTestUtils from 'react-dom/test-utils';
-import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 import { tableTestkitFactory } from '../../testkit';
-import { tableTestkitFactory as enzymeTableTestkitFactory } from '../../testkit/enzyme';
-import { mount } from 'enzyme';
-import { ReactDOMTestContainer } from '../../test/dom-test-container';
+import { createRendererWithDriver, cleanup } from '../../test/utils/react';
 
 describe('Table', () => {
-  const createDriver = createDriverFactory(TableDriverFactory);
-  const createEnzymeDriver = component => {
-    const dataHook = 'someDataHook';
-    const wrapper = mount(React.cloneElement(component, { dataHook }));
-    const driver = enzymeTableTestkitFactory({ wrapper, dataHook });
-    return { driver, wrapper };
+  const render = createRendererWithDriver(TableDriverFactory);
+  const createDriver = jsx => {
+    const rendered = render(jsx);
+    return rendered.driver;
   };
 
   const ID_1 = 'aaa',
@@ -106,34 +100,28 @@ describe('Table', () => {
 
     it('should update selection if selection prop has change', async () => {
       const selectedIds = [];
-      const { driver, wrapper } = createEnzymeDriver(
+      const { driver, rerender } = render(
         <Table {...defaultProps} selectedIds={selectedIds} />,
       );
       expect(driver.isRowSelected(0)).toBeFalsy();
-      wrapper.setProps({ selectedIds: firstSelected() });
+      rerender(<Table {...defaultProps} selectedIds={firstSelected()} />);
       expect(driver.isRowSelected(0)).toBeTruthy();
-    });
-
-    //TODO: It seems that DataTable.render is not called (verified with console.log). But this test shows it does.
-    xit('should NOT re-render DataTable when new props are set but selection has NOT changed', async () => {
-      const { wrapper } = createEnzymeDriver(
-        <Table {...defaultProps} selectedIds={firstSelected()} />,
-      );
-      const renderMock = jest.fn();
-      wrapper.find(DataTable).instance().render = renderMock;
-      wrapper.setProps({ selectedIds: firstSelected() });
-      expect(renderMock.mock.calls).toHaveLength(0);
     });
   });
 
   describe('setSelectedIds', () => {
     it('should select rows when setSelectedIds is called', () => {
-      const { driver, wrapper } = createEnzymeDriver(
-        <Table {...defaultProps} selectedIds={noneSelected()} />,
+      let tableInst;
+      const { driver } = render(
+        <Table
+          {...defaultProps}
+          selectedIds={noneSelected()}
+          ref={c => (tableInst = c)}
+        />,
       );
       expect(driver.isRowSelected(0)).toBeFalsy();
       expect(driver.isRowSelected(1)).toBeFalsy();
-      wrapper.instance().setSelectedIds(allSelected());
+      tableInst.setSelectedIds(allSelected());
       expect(driver.isRowSelected(0)).toBeTruthy();
       expect(driver.isRowSelected(1)).toBeTruthy();
     });
@@ -172,27 +160,23 @@ describe('Table', () => {
         { a: 'value 1', b: 'value 2' },
         { a: 'value 3', b: 'value 4' },
       ];
-      const { driver, wrapper } = createEnzymeDriver(
-        <Table {...props} data={data} />,
-      );
+      const { driver, rerender } = render(<Table {...props} data={data} />);
       const newValue = 'value 1 changed';
       const COLUMN_A_INDEX = 1;
       const ROW_INDEX = 0;
       data[ROW_INDEX].a = newValue;
-      wrapper.setProps({ data });
+      rerender(<Table {...props} data={data} />);
       expect(driver.getCell(ROW_INDEX, COLUMN_A_INDEX).textContent).toBe(
         newValue,
       );
     });
 
     it('should keep selection when re-rendered given selectedIds not provided (Uncontrolled)', () => {
-      const { driver, wrapper } = createEnzymeDriver(
-        <Table {...defaultProps} />,
-      );
+      const { driver, rerender } = render(<Table {...defaultProps} />);
       expect(driver.isRowSelected(1)).toBeFalsy();
       driver.clickRowChecbox(1);
       expect(driver.isRowSelected(1)).toBeTruthy();
-      wrapper.setProps({ ...defaultProps });
+      rerender(<Table {...defaultProps} />);
       expect(driver.isRowSelected(1)).toBeTruthy();
     });
   });
@@ -227,7 +211,7 @@ describe('Table', () => {
       });
 
       it('should display bulk-selection as checked when data and selectedIds change', () => {
-        const { driver, wrapper } = createEnzymeDriver(
+        const { driver, rerender } = render(
           <Table
             {...defaultProps}
             data={[{ id: ID_1, a: 'value 1', b: 'value 2' }]}
@@ -235,13 +219,16 @@ describe('Table', () => {
           />,
         );
         expect(driver.getBulkSelectionState() === 'ALL').toBeTruthy();
-        wrapper.setProps({
-          data: [
-            { id: ID_1, a: 'value 1', b: 'value 2' },
-            { id: ID_2, a: 'value 3', b: 'value 4' },
-          ],
-          selectedIds: [ID_1, ID_2],
-        });
+        rerender(
+          <Table
+            {...defaultProps}
+            data={[
+              { id: ID_1, a: 'value 1', b: 'value 2' },
+              { id: ID_2, a: 'value 3', b: 'value 4' },
+            ]}
+            selectedIds={[ID_1, ID_2]}
+          />,
+        );
         expect(driver.getBulkSelectionState() === 'ALL').toBeTruthy();
       });
     });
@@ -412,11 +399,10 @@ describe('Table', () => {
   });
 
   describe('withWrapper', () => {
-    const testContainer = new ReactDOMTestContainer().unmountAfterEachTest();
+    afterEach(() => cleanup());
 
     it('should have working test drivers when without wrapper', () => {
-      testContainer.render(TableDriverFactory);
-      testContainer.renderSync(
+      const { container } = render(
         <Table
           {...defaultProps}
           showSelection
@@ -438,7 +424,7 @@ describe('Table', () => {
       );
 
       const titlebarDriver = tableTestkitFactory({
-        wrapper: testContainer.componentNode,
+        wrapper: container,
         dataHook: 'test-table-titlebar',
       });
 
@@ -446,38 +432,13 @@ describe('Table', () => {
       expect(bulkSelectionCheckboxDriver.isChecked()).toBeTruthy();
 
       const contentDriver = tableTestkitFactory({
-        wrapper: testContainer.componentNode,
+        wrapper: container,
         dataHook: 'test-table-content',
       });
 
       expect(!!contentDriver.element).toBe(true);
       expect(contentDriver.getRowsCount()).toBe(defaultProps.data.length);
       expect(contentDriver.isRowSelected(0)).toBeTruthy();
-    });
-  });
-
-  describe('testkit', () => {
-    it('should exist', () => {
-      const div = document.createElement('div');
-      const dataHook = 'myDataHook';
-      const wrapper = div.appendChild(
-        ReactTestUtils.renderIntoDocument(
-          <div>
-            <Table dataHook={dataHook} {...defaultProps} />
-          </div>,
-        ),
-      );
-      const dataTableTestkit = tableTestkitFactory({ wrapper, dataHook });
-      expect(dataTableTestkit.hasChildWithId(defaultProps.id)).toBeTruthy();
-    });
-  });
-
-  describe('enzyme testkit', () => {
-    it('should exist', () => {
-      const dataHook = 'myDataHook';
-      const wrapper = mount(<Table {...defaultProps} dataHook={dataHook} />);
-      const dataTableTestkit = enzymeTableTestkitFactory({ wrapper, dataHook });
-      expect(dataTableTestkit.hasChildWithId(defaultProps.id)).toBeTruthy();
     });
   });
 });

@@ -13,6 +13,12 @@ Types of changes:
 1. **Breaking** for breaking changes
 1. **Docs** for documentation changes
 
+## Next
+
+### Added
+
+- `<CloseButton>` - new component [#2480](https://github.com/wix/wix-style-react/pull/2480)
+
 ## 5.15.1 - 2018-12-03
 
 ### Fixed

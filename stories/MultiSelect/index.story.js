@@ -65,6 +65,7 @@ export default {
     },
 
     valueParser,
+
     onChange: e => setState({ value: e.target.value }),
 
     onSelect: tags => {

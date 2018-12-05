@@ -6,4 +6,4 @@
   <IconButton skin="light" priority="secondary">
     <Adjust />
   </IconButton>
-</div>;
+</div>

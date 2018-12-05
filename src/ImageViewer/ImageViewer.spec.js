@@ -1,14 +1,14 @@
 import React from 'react';
 import ImageViewer from './ImageViewer';
 import ImageViewerDriverFactory from './ImageViewer.driver';
-import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
-
-import { ReactDOMTestContainer } from '../../test/dom-test-container';
+import { createRendererWithDriver, cleanup } from '../../test/utils/react';
 
 describe('ImageViewer', () => {
-  const createDriver = new ReactDOMTestContainer()
-    .unmountAfterEachTest()
-    .createLegacyRenderer(ImageViewerDriverFactory);
+  const createDriver = jsx => {
+    return createRendererWithDriver(ImageViewerDriverFactory)(jsx).driver;
+  };
+
+  afterEach(() => cleanup());
 
   let props, driver;
   const IMAGE_URL = 'some-image-url.png';

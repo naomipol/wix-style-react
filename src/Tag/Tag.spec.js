@@ -62,7 +62,6 @@ describe('Tag', () => {
         </Tag>,
       );
       expect(driver.isLarge()).toBeTruthy();
-      expect(driver.isCloseButtonLarge()).toBeTruthy();
       expect(driver.getTextSize()).toBe(SIZES.medium);
       expect(driver.getTextWeight()).toBe(WEIGHTS.normal);
     });

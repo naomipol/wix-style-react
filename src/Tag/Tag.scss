@@ -1,4 +1,4 @@
-@import '../colors.scss';
+@import '../common.scss';
 
 .root {
   box-sizing: border-box;
@@ -156,4 +156,93 @@
 .disabled {
   background-color: $GR30;
   color: $D30;
+}
+
+@include withRTL() {
+  .tinySize {
+    padding: 0;
+    padding: 0 9px;
+
+    &.withThumb {
+      padding-right: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 3px;
+    }
+
+    .thumb {
+      margin-left: 6px;
+      margin-right: 0px;
+    }
+  }
+
+  .smallSize {
+    padding: 0;
+    padding: 0 12px;
+
+    &.withThumb {
+      padding-right: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 3px;
+    }
+
+    .thumb {
+      margin-left: 6px;
+      margin-right: 0px;
+    }
+
+    .removeButton {
+      margin-left: 0px;
+      margin-right: 6px;
+    }
+  }
+
+  .mediumSize {
+    padding: 0;
+    padding: 0 12px;
+
+    &.withThumb {
+      padding-right: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 6px;
+    }
+
+    .thumb {
+      margin-left: 12px;
+      margin-right: 0px;
+    }
+
+    .removeButton {
+      margin-left: 0px;
+      margin-right: 6px;
+    }
+  }
+
+  .largeSize {
+    padding: 0;
+    padding: 0 18px;
+
+    &.withThumb {
+      padding-right: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 6px;
+    }
+
+    .thumb {
+      margin-left: 12px;
+      margin-right: 0px;
+    }
+
+    .removeButton {
+      margin-left: 0px;
+      margin-right: 12px;
+    }
+  }
 }

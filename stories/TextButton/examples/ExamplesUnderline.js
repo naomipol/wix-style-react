@@ -10,4 +10,4 @@
   <TextButton skin="dark" underline="always">
     dark
   </TextButton>
-</div>;
+</div>

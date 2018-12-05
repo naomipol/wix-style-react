@@ -377,3 +377,9 @@ import { iconButtonDriverFactory } from '../src/IconButton/IconButton.driver';
 export const iconButtonTestkitFactory = protractorUniTestkitFactoryCreator(
   iconButtonDriverFactory,
 );
+
+import { closeButtonDriverFactory } from '../src/CloseButton/CloseButton.driver';
+
+export const closeButtonTestkitFactory = protractorUniTestkitFactoryCreator(
+  closeButtonDriverFactory,
+);

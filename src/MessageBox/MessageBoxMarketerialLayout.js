@@ -42,7 +42,12 @@ class MessageBoxMarketerialLayout extends WixComponent {
       <div className={styles.root}>
         <div className={headerClasses}>
           <div className={styles.close}>
-            <CloseButton dataHook="close-button" onClick={onClose} />
+            <CloseButton
+              dataHook="close-button"
+              size="medium"
+              onClick={onClose}
+              skin="lightFilled"
+            />
           </div>
           {imageComponent ? (
             <div className={styles.headerImageComponent}>{imageComponent}</div>

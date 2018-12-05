@@ -17,6 +17,7 @@ export default {
     skin: 'standard',
     priority: 'primary',
     size: 'medium',
+    disabled: false,
   },
 
   exampleProps: {
