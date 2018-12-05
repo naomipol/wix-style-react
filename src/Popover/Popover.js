@@ -18,10 +18,6 @@ class Popover extends WixComponent {
 
     /** Callback to be called when the user perform a click outside of the component */
     onClickOutside: PropTypes.func,
-    /** The theme of the popover */
-    theme: PropTypes.oneOf(['dark', 'light']),
-    /** Whether to apply thr bouncing animation */
-    bounce: PropTypes.bool,
 
     children: (props, propName) => {
       const childrenArr = React.Children.toArray(props[propName]);
@@ -61,7 +57,6 @@ class Popover extends WixComponent {
 
   static defaultProps = {
     appendTo: 'parent',
-    theme: 'light',
   };
 
   onClickOutside(e) {

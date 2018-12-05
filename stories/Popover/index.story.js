@@ -1,20 +1,22 @@
 import React from 'react';
 import CodeExample from 'wix-storybook-utils/CodeExample';
+import Markdown from 'wix-storybook-utils/Markdown';
 import { storySettings, placements } from './storySettings';
 
 import Popover from '../../src/Popover';
 
-import ExampleDropdownLayout from './examples/ExampleDropdownLayout';
-import ExampleDropdownLayoutRaw from '!raw-loader!./examples/ExampleDropdownLayout';
-
 import ExampleAppendTo from './examples/ExampleAppendTo';
-import ExampleAppendToRaw from '!raw-loader!./examples/ExampleAppendTo';
+import ExampleInteractive from './examples/ExampleInteractive';
 
 import ExamplePositioning from './examples/ExamplePositioning';
 import ExamplePositioningRaw from '!raw-loader!./examples/ExamplePositioning';
 
-import ExampleInteractive from './examples/ExampleInteractive';
-import ExampleInteractiveRaw from '!raw-loader!./examples/ExampleInteractive';
+const Example = ({ title, children }) => (
+  <div>
+    <Markdown source={`### ${title}`} />
+    {children}
+  </div>
+);
 
 const children = [
   {
@@ -73,21 +75,17 @@ export default {
 
   examples: (
     <div>
-      <CodeExample title="With DropdownLayout" code={ExampleDropdownLayoutRaw}>
-        <ExampleDropdownLayout />
-      </CodeExample>
-
-      <CodeExample title="AppendTo prop" code={ExampleAppendToRaw}>
+      <Example title="`appendTo` prop">
         <ExampleAppendTo />
-      </CodeExample>
+      </Example>
 
       <CodeExample title="Positioning" code={ExamplePositioningRaw}>
         <ExamplePositioning />
       </CodeExample>
 
-      <CodeExample title="Interactive" code={ExampleInteractiveRaw}>
+      <Example title="Interactive">
         <ExampleInteractive />
-      </CodeExample>
+      </Example>
     </div>
   ),
 };

@@ -39,11 +39,6 @@ describe('Popover', () => {
   });
 
   describe('examples', () => {
-    eyes.it('with DropdownLayout example', async () => {
-      const driver = await createDriver('story-popover-dropdown-layout');
-      await driver.click();
-    });
-
     eyes.it('AppendTo prop example', async () => {
       await createDriver('story-popover-append-to');
     });

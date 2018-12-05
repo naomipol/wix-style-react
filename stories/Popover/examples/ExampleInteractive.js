@@ -2,80 +2,93 @@ import React from 'react';
 
 import Markdown from 'wix-storybook-utils/Markdown';
 
-import Popover from 'wix-style-react/Popover';
-import Text from 'wix-style-react/Text';
-import Button from 'wix-style-react/Button';
-
 import { Layout, Cell } from 'wix-style-react/Layout';
+import LiveCodeExample, {
+  createPropsArray,
+} from '../../utils/Components/LiveCodeExample';
 
+const createClickablePopoverExample = props => `
 class ClickablePopover extends React.Component {
-  state = {
-    shown: false,
-  };
+  constructor(props) {
+    this.state = {
+      shown: false
+    };
+  }
 
-  toggle = () => this.setState(({ shown }) => ({ shown: !shown }));
-  close = () => this.setState({ shown: false });
+  toggle() {
+    this.setState(({ shown }) => ({ shown: !shown }));
+  }
+
+  close() {
+    this.setState({ shown: false });
+  }
 
   render() {
     const { shown } = this.state;
 
     return (
-      <div style={{ padding: 25 }}>
-        <Popover
-          showArrow
-          placement="right"
-          shown={shown}
-          onClickOutside={this.close}
-          {...this.props}
-        >
-          <Popover.Element>
-            <Button onClick={this.toggle}>Click me to toggle</Button>
-          </Popover.Element>
-          <Popover.Content>
-            <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-              <Button height="x-small">Nothing</Button>
-            </div>
-          </Popover.Content>
-        </Popover>
-      </div>
+      <Popover
+        showArrow
+        placement="right"
+        shown={shown}
+        onClickOutside={() => this.close()}
+        ${createPropsArray(props).join('        \n')}
+      >
+        <Popover.Element>
+          <Button onClick={() => this.toggle()}>Click me to toggle</Button>
+        </Popover.Element>
+        <Popover.Content>
+          <div style={{ padding: '12px 24px', textAlign: 'center' }}>
+            <Button height="x-small">Click me</Button>
+          </div>
+        </Popover.Content>
+      </Popover>
     );
   }
 }
+`;
 
+const createHoverablePopoverExamle = props => `
 class HoverablePopover extends React.Component {
-  state = {
-    shown: false,
-  };
+  constructor(props) {
+    this.state = {
+      shown: false
+    };
+  }
 
-  open = () => this.setState({ shown: true });
-  close = () => this.setState({ shown: false });
+  open() {
+    this.setState({ shown: true });
+  }
+
+  close() {
+    this.setState({ shown: false });
+  }
 
   render() {
     const { shown } = this.state;
 
     return (
-      <div style={{ padding: 25 }}>
-        <Popover
-          showArrow
-          placement="right"
-          shown={shown}
-          onMouseEnter={this.open}
-          onMouseLeave={this.close}
-          {...this.props}
-        >
-          <Popover.Element>
-            <Button>Hover me to open</Button>
-          </Popover.Element>
-          <Popover.Content>
-            <div style={{ padding: '12px 24px', textAlign: 'center' }}>
-              Now hover me!
-            </div>
-          </Popover.Content>
-        </Popover>
-      </div>
+      <Popover
+        showArrow
+        placement="right"
+        shown={shown}
+        onMouseEnter={() => this.open()}
+        onMouseLeave={() => this.close()}
+        ${createPropsArray(props).join('        \n')}
+      >
+        <Popover.Element>
+          <Button>Hover me to open</Button>
+        </Popover.Element>
+        <Popover.Content>
+          <div style={{ padding: '12px 24px', textAlign: 'center' }}>
+            Now hover me!
+          </div>
+        </Popover.Content>
+      </Popover>
     );
   }
 }
+`;
 
 export default () => (
   <div style={{ maxWidth: 1254 }}>
@@ -95,13 +108,19 @@ the \`<Popover.Content/>\`, the \`onClickOutside\` event fires.
 
     <Layout>
       <Cell span={6}>
-        <Text>Interactive</Text>
-        <ClickablePopover appendTo="parent" />
+        <LiveCodeExample
+          compact
+          title="Interactive"
+          initialCode={createClickablePopoverExample({ appendTo: 'parent' })}
+        />
       </Cell>
 
       <Cell span={6}>
-        <Text>Non-Interactive</Text>
-        <ClickablePopover appendTo="window" />
+        <LiveCodeExample
+          compact
+          title="Non-Interactive"
+          initialCode={createClickablePopoverExample({ appendTo: 'window' })}
+        />
       </Cell>
     </Layout>
     <Markdown
@@ -116,13 +135,19 @@ A similar approach can be used with mouse events handlers (\`onMouseEnter\`,
 
     <Layout>
       <Cell span={6}>
-        <Text>Interactive</Text>
-        <HoverablePopover appendTo="parent" />
+        <LiveCodeExample
+          compact
+          title="Interactive"
+          initialCode={createHoverablePopoverExamle({ appendTo: 'parent' })}
+        />
       </Cell>
 
       <Cell span={6}>
-        <Text>Non-Interactive</Text>
-        <HoverablePopover appendTo="window" />
+        <LiveCodeExample
+          compact
+          title="Non-Interactive"
+          initialCode={createHoverablePopoverExamle({ appendTo: 'window' })}
+        />
       </Cell>
     </Layout>
   </div>
