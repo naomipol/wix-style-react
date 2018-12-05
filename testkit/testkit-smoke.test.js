@@ -90,6 +90,12 @@ const COMPONENTS = {
   CloseButton: {
     unidriver: true,
   },
+  Button: {
+    unidriver: true,
+    props: {
+      upgrade: true,
+    },
+  },
   Tag: {
     props: {
       useOldMargins: false,

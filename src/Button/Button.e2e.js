@@ -3,6 +3,7 @@ import autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 
 import { createStoryUrl } from '../../test/utils/storybook-helpers';
 import { storySettings } from '../../stories/Button/storySettings';
+import { disableCSSAnimation } from '../../test/utils/protractor-helpers';
 
 describe('Button', () => {
   const storyUrl = createStoryUrl({
@@ -12,6 +13,7 @@ describe('Button', () => {
 
   beforeAll(async () => {
     await browser.get(storyUrl);
+    await browser.executeScript(disableCSSAnimation);
   });
 
   beforeEach(() => {
