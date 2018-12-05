@@ -119,7 +119,6 @@ class Carousel extends WixComponent {
               return (
                 <div
                   key={currentIndex}
-                  style={{ transition: this.props.transition }}
                   className={classNames(styles.image, {
                     [styles.active]: currentIndex === this.state.activeIndex,
                     [styles.prev]: currentIndex === this._getPrevIndex(),

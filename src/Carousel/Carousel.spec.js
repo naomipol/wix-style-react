@@ -1,5 +1,5 @@
 import React from 'react';
-import carouselDriverFactory from './Carousel.driver';
+import carouselDriverFactory from './Carousel.driver.private';
 import Carousel from './Carousel';
 import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 

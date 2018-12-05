@@ -1,16 +1,10 @@
 # Carousel component
 
-> Carousel Component
 
-## Properties
-
-> See API tab.
-> API tab may not be complete. Props should include all props of `InputWithOptions`, which includes all props of `Input` and `DropdownLayout`.
-
-## Option (an item in the `options` prop)
+## Available Props 
 
 | propName | propType | defaultValue | isRequired | description |
 |----------|----------|--------------|------------|-------------|
-| id | string or number | - | + | The id of the option, should be unique |
-| value | string or node | - | + | Can be a text or a react elements, if text is '-', a divider will render at that position. |
-| disabled | bool | false | - | Whether this option is disabled or not |
+| images | array of strings | - | + | Each string is a src of an image (in <img src="your_src" />)|
+| infinite | bool | true | - | Images loop endlessly |
+| autoplay | bool | true | - | Auto-playing of images |
