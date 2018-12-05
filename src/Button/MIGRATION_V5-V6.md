@@ -6,7 +6,7 @@ Some props and their values got deprecated or replaced with new. Version 5 by de
 
 ## Deprecated props
 
-`themes` - changed to `skin` prop instead.
+`theme` - changed to `skin` prop instead.
 
 `id` - removed from storybook definition but still can be passed and used because button supports any native html attribute.
 
@@ -74,7 +74,7 @@ Deprecated `theme` values
 
 ## IconButton, TextButton and CloseButton
 
-Themes that change the core button layout were moved to different components: `IconButton`, `TextButton` and `CloseButton`.
+Themes that previously changed button layout like `icon-standard` were moved to different components: `IconButton`, `TextButton` and `CloseButton`.
 
 IconButton
 
