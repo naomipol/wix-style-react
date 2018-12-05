@@ -310,6 +310,22 @@ describe('Calendar', () => {
       expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
     });
 
+    it('should move the displayed month forward, provided that the current month is earlier than the new unbounded Range', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, SEPTEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[SEPTEMBER]);
+      rerender(
+        <Calendar
+          value={{
+            from: new Date(2018, OCTOBER, 1),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+    });
+
     it('should move the displayed month back, provided that the current month is later than the new Range', () => {
       const { driver, rerender } = render(
         <Calendar value={new Date(2018, NOVEMBER, 1)} onChange={() => {}} />,
@@ -319,6 +335,22 @@ describe('Calendar', () => {
         <Calendar
           value={{
             from: new Date(2018, SEPTEMBER, 1),
+            to: new Date(2018, OCTOBER, 1),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[OCTOBER]);
+    });
+
+    it('should move the displayed month back, provided that the current month is later than the new unbounded Range', () => {
+      const { driver, rerender } = render(
+        <Calendar value={new Date(2018, NOVEMBER, 1)} onChange={() => {}} />,
+      );
+      expect(driver.getMonthCaption()).toEqual(monthNames[NOVEMBER]);
+      rerender(
+        <Calendar
+          value={{
             to: new Date(2018, OCTOBER, 1),
           }}
           onChange={() => {}}
