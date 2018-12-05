@@ -16,7 +16,7 @@ describe('Button', () => {
     await browser.executeScript(disableCSSAnimation);
   });
 
-  beforeEach(() => {
+  afterEach(() => {
     return autoExampleDriver.remount();
   });
 
