@@ -8,6 +8,21 @@ import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import cloneDeep from 'clone-deep';
 
+// because lodash throttle is not compatible with jest timeout mocks
+function throttle(callback, time) {
+  let pause;
+
+  return function(...args) {
+    if (!pause) {
+      pause = true;
+      setTimeout(() => {
+        pause = false;
+      }, time);
+      callback(...args);
+    }
+  };
+}
+
 const duplicateIfTwoImages = images =>
   images.length === 2 ? images.concat(cloneDeep(images)) : images;
 
@@ -20,28 +35,31 @@ class Carousel extends WixComponent {
       images: duplicateIfTwoImages(images),
       loadedImageCount: 0,
     };
+    this._slide = throttle(this._slide.bind(this), 600);
   }
 
   _isLastImage() {
     return this.state.activeIndex === this.props.images.length - 1;
   }
 
+  _slide(index) {
+    this.setState({
+      activeIndex: index,
+    });
+  }
+
   _prev() {
     if (this.state.activeIndex === 0 && !this.props.infinite) {
       return;
     }
-    this.setState({
-      activeIndex: this._getPrevIndex(),
-    });
+    this._slide(this._getPrevIndex());
   }
 
   _next() {
     if (this._isLastImage() && !this.props.infinite) {
       return;
     }
-    this.setState({
-      activeIndex: this._getNextIndex(),
-    });
+    this._slide(this._getNextIndex());
   }
 
   _getNextIndex() {

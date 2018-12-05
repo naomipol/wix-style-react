@@ -5,6 +5,7 @@ import { createDriverFactory } from 'wix-ui-test-utils/driver-factory';
 
 describe('Carousel', () => {
   const createDriver = createDriverFactory(carouselDriverFactory);
+  jest.useFakeTimers();
 
   it('should be rendered', () => {
     const { driver } = createDriver(<Carousel images={[]} />);
@@ -49,6 +50,7 @@ describe('Carousel', () => {
         <Carousel images={[{ src: 'image1.jpg' }, { src: 'image2.jpg' }]} />,
       );
       driver.clickNext();
+      jest.runOnlyPendingTimers();
       driver.clickPrevious();
       expect(driver.getCurrentImageIndex()).toBe(0);
     });
@@ -82,8 +84,10 @@ describe('Carousel', () => {
         );
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(1);
+        jest.runOnlyPendingTimers();
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(2);
+        jest.runOnlyPendingTimers();
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(0);
       });
@@ -105,7 +109,7 @@ describe('Carousel', () => {
         expect(driver.getCurrentImageIndex()).toBe(0);
       });
 
-      it('should stay on the last image when clicing `next` on the last image', () => {
+      it('should stay on the last image when clicing `next` on the last image', async () => {
         const { driver } = createDriver(
           <Carousel
             images={[
@@ -118,8 +122,10 @@ describe('Carousel', () => {
         );
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(1);
+        jest.runOnlyPendingTimers();
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(2);
+        jest.runOnlyPendingTimers();
         driver.clickNext();
         expect(driver.getCurrentImageIndex()).toBe(2);
       });

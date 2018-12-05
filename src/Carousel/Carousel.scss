@@ -10,7 +10,7 @@
     display: flex;
     width: 100%;
     height: 100%;
-    margin-bottom: 34px;
+    margin-bottom: 24px;
 }
 
 .image-container {
@@ -18,7 +18,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    margin: 0 34px;
+    margin: 0 24px;
 
     &.loading {
         display: none
@@ -65,6 +65,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 24px;
 }
 
 .pagination {
