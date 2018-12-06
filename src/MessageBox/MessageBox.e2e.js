@@ -13,6 +13,7 @@ import {
 } from '../../test/utils/storybook-helpers';
 
 import { storySettings } from '../../stories/MessageBox/storySettings';
+import { $ } from 'protractor';
 
 const byDataHook = dataHook => $(`[data-hook="${dataHook}"]`);
 
@@ -126,7 +127,7 @@ describe('MessageBox', () => {
       await verifyItem(disabledAction);
     });
 
-    fdescribe('TestPages', () => {
+    describe('TestPages', () => {
       const eyesIt = eyesItInstance({ width: 700, height: 600 });
 
       const takeSnapshots = async testPageSettings => {
@@ -136,12 +137,19 @@ describe('MessageBox', () => {
           testName: testPageSettings.testName,
         });
         await browser.get(storyUrl);
-        for (const dataHook of Object.keys(testPageSettings.dataHooks)) {
-          await verifyItem(testPageSettings.dataHooks[dataHook], eyesIt);
+
+        const snapshotElements = $$(`[data-snapshot]`);
+        const count = await snapshotElements.count();
+        for (let index = 0; index < count; index++) {
+          const snapshotElm = snapshotElements.get(index);
+          const name = await snapshotElm.getAttribute('name');
+          await scrollToElement(snapshotElm);
+          // TODO: use checkRegionByElement
+          await eyesIt.checkWindow(name);
         }
       };
 
-      fdescribe('illustration ', () => {
+      describe('illustration ', () => {
         eyes.it('should not break design', async () => {
           await takeSnapshots(storySettings.tests.illustration);
         });

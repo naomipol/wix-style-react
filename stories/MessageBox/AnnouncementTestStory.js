@@ -12,56 +12,55 @@ import { storySettings } from './storySettings';
 import { Snapshot } from './Snapshot';
 
 const Announcement = props => {
-  const { snapshotName, ...rest } = props;
   return (
-    <Snapshot name={props.snapshotName}>
-      <MessageBoxMarketerialLayout
-        title="Looking good! Your site is on Google"
-        content="All of your pages are indexed and now come up as separate search results on Google. This is great for your visbility!"
-        confirmText="Button"
-        theme="blue"
-        primaryButtonLabel="Button"
-        secondaryButtonLabel="Secondary action"
-        {...rest}
-      />
-    </Snapshot>
+    <MessageBoxMarketerialLayout
+      title="Looking good! Your site is on Google"
+      content="All of your pages are indexed and now come up as separate search results on Google. This is great for your visbility!"
+      confirmText="Button"
+      theme="blue"
+      primaryButtonLabel="Button"
+      secondaryButtonLabel="Secondary action"
+      {...props}
+    />
   );
 };
 
 const AnnouncementTests = storiesOf(
-  getTestStoryKind({ category: '9. Modals', storyName: '9.4 Announcement' }),
+  getTestStoryKind({
+    category: storySettings.category,
+    storyName: storySettings.storyName,
+  }),
   module,
 );
 
-AnnouncementTests.add('1. Illustration', () => {
-  const hooks = storySettings.tests.illustration.dataHooks;
+AnnouncementTests.add(storySettings.tests.illustration.testName, () => {
   return (
     <div>
-      <Announcement
-        snapshotName={hooks.standard}
-        illustration={<IllustrationIcon />}
-      />
-      <Announcement
-        snapshotName={hooks.purple}
-        illustration={<IllustrationIcon />}
-        theme="purple"
-      />
-      <Announcement
-        snapshotName={hooks.highestImage}
-        illustration={<img src="https://picsum.photos/100/150?image=0" />}
-      />
+      <Snapshot name="standard">
+        <Announcement illustration={<IllustrationIcon />} />
+      </Snapshot>
+
+      <Snapshot name="purple">
+        <Announcement illustration={<IllustrationIcon />} theme="purple" />
+      </Snapshot>
+
+      <Snapshot name="highestImage">
+        <Announcement
+          illustration={<img src="https://picsum.photos/100/150?image=0" />}
+        />
+      </Snapshot>
     </div>
   );
 });
 
-AnnouncementTests.add('2. ImageComponent', () => {
-  const hooks = storySettings.tests.imageComponent.dataHooks;
+AnnouncementTests.add(storySettings.tests.imageComponent.testName, () => {
   return (
     <div className={styles.container}>
-      <Announcement
-        dataHook={hooks.standard}
-        imageComponent={<img src="https://picsum.photos/100/100?image=0" />}
-      />
+      <Snapshot name="standard">
+        <Announcement
+          imageComponent={<img src="https://picsum.photos/100/100?image=0" />}
+        />
+      </Snapshot>
     </div>
   );
 });
