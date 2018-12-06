@@ -69,6 +69,12 @@ class WixComponent extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.dataHook !== this.props.dataHook) {
+      this._addDataHook(this.props.dataHook);
+    }
+  }
+
   componentWillUnmount() {
     if (this._boundEvents && typeof document !== 'undefined') {
       this._boundEvents.forEach(eventName => {
