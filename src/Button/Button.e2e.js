@@ -19,7 +19,12 @@ describe('Button', () => {
   afterEach(async () => {
     await autoExampleDriver.remount();
     await autoExampleDriver.reset();
-    document.head = {};
+    const cleanhead = () => {
+      let head = document.head || document.getElementsByTagName('head')[0];
+      head = {};
+      return;
+    };
+    await browser.executeScript(cleanhead);
   });
 
   const eyes = eyesItInstance({ enableSnapshotAtBrowserGet: false });
