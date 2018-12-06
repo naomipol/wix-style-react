@@ -144,8 +144,11 @@ describe('MessageBox', () => {
           const snapshotElm = snapshotElements.get(index);
           const name = await snapshotElm.getAttribute('name');
           await scrollToElement(snapshotElm);
-          // TODO: use checkRegionByElement
+
           await eyesIt.checkWindow(name);
+
+          // TODO: TEMP - adding also  checkRegionByElement to verify if it works (in CI)
+          await eyesIt.checkRegionByElement(snapshotElm, name);
         }
       };
 
