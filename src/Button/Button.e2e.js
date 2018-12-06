@@ -19,6 +19,7 @@ describe('Button', () => {
   afterEach(async () => {
     await autoExampleDriver.remount();
     await autoExampleDriver.reset();
+    document.head = {};
   });
 
   const eyes = eyesItInstance({ enableSnapshotAtBrowserGet: false });
