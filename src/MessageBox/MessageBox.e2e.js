@@ -148,7 +148,10 @@ describe('MessageBox', () => {
           await eyesIt.checkWindow(name);
 
           // TODO: TEMP - adding also  checkRegionByElement to verify if it works (in CI)
-          await eyesIt.checkRegionByElement(snapshotElm, name);
+          await eyesIt.checkRegionByElement(
+            snapshotElm,
+            `checkRegionByElement - ${name}`,
+          );
         }
       };
 
