@@ -494,3 +494,9 @@ import { iconButtonDriverFactory } from '../src/IconButton/IconButton.driver';
 export const iconButtonTestkitFactory = enzymeUniTestkitFactoryCreator(
   iconButtonDriverFactory,
 );
+
+import { carouselDriverFactory } from '../src/Carousel/Carousel.driver';
+
+export const carouselTestkitFactory = enzymeUniTestkitFactoryCreator(
+  carouselDriverFactory,
+);

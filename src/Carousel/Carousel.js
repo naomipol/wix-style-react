@@ -7,6 +7,7 @@ import ChevronRightLarge from '../new-icons/ChevronRightLarge';
 import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import cloneDeep from 'clone-deep';
+import PropTypes from 'prop-types';
 
 const autoplayDuration = '2000ms'
 const regularDuration = '600ms'
@@ -194,12 +195,19 @@ class Carousel extends WixComponent {
   }
 }
 
-Carousel.defaultProps = Object.assign(
-  {
-    infinite: true,
-  },
-  WixComponent.defaultProps,
-);
-Carousel.displayName = 'Carousel';
+//update images on imageUpdate
+Carousel.propTypes = {
+  /** Array of strings where each string is a src of an image (in \<img src="your_src" /\>) */
+  images: PropTypes.array.isRequired,
+  /** Images loop endlessly */
+  infinite: PropTypes.bool,
+  /** Auto-playing of images */
+  autoplay: PropTypes.bool
+}
 
-export default Carousel;
+Carousel.defaultProps = {
+  infinite: true
+}
+Carousel.displayName = 'Carousel'
+
+export default Carousel
